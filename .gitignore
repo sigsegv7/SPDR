@@ -1,0 +1,7 @@
+*.o
+*.d
+*.sys
+*.iso
+*.img
+/artifacts
+/private/psp1/boot/stand/limine

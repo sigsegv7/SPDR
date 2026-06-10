@@ -1,0 +1,37 @@
+#
+# Copyright (c) 2026, Chloe M.
+# Provided under the BSD-3 clause.
+#
+# Description: Kernel-side build script
+# Author:      Chloe M.
+#
+
+CFILES = $(shell find ../init -name "*.c")
+OFILES = $(CFILES:.c=.o)
+DFILES = $(CFILES:.c=.d)
+
+CC = clang
+PROJECT_ROOT=../../../../..
+
+CFLAGS = 			\
+	$(SYS_CFLAGS)   \
+	-I$(PROJECT_ROOT)/public/sdk/head \
+	-D_KERNEL		\
+	-MMD			\
+	-DPRINTF_DISABLE_SUPPORT_PTRDIFF_T \
+	-DPRINTF_DISABLE_SUPPORT_FLOAT
+
+.PHONY: all
+all: $(OFILES) machine
+
+.PHONY: machine
+machine:
+	cd $(ARCH_TARGET)/; 		\
+		$(MAKE) 				\
+		SYS_CC=$(SYS_CC) 		\
+		SYS_LD=$(SYS_LD)		\
+		SYS_CFLAGS="$(SYS_CFLAGS)"
+
+-include $(DFILES)
+%.o: %.c
+	$(CC) -c $< $(CFLAGS) -o $@
