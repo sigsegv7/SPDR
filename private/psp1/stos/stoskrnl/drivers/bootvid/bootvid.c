@@ -17,6 +17,7 @@
 
 static KE_BPAL_FRAMEBUFFER Framebuffer;
 static struct flanterm_context *FtCtx = NULL;
+static BOOL BootConsEnabled = false;
 
 ST_STATUS
 BootVidInit(VOID)
@@ -37,6 +38,10 @@ VOID
 BootVidInitCons(VOID)
 {
     ULONG Foreground, Background;
+
+    if (BootConsEnabled) {
+        return;
+    }
 
     Foreground = DEFAULT_FG;
     Background = DEFAULT_BG;
@@ -65,6 +70,8 @@ BootVidInitCons(VOID)
         0, 0, 0,
         0, 0, 0, 0
     );
+
+    BootConsEnabled = true;
 }
 
 VOID
@@ -76,4 +83,24 @@ BootVidClear(ULONG Color)
     for (USIZE Idx = 0; Idx < Framebuffer.Height * Framebuffer.Pitch; ++Idx) {
         Ptr[Idx] = Color;
     }
+}
+
+VOID
+BootVidConsWrite(const CHAR *String, USIZE Length)
+{
+    if (String == NULL || Length == 0) {
+        return;
+    }
+
+    if (!BootConsEnabled) {
+        return;
+    }
+
+    flanterm_write(FtCtx, String, Length);
+}
+
+BOOL
+BootVidConsEn(VOID)
+{
+    return BootConsEnabled;
 }

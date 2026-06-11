@@ -38,12 +38,12 @@ KernelEntry(VOID)
     /* Initialize the serial driver */
     HalSerialInit();
 
-    /* Print version information */
-    Version();
-
     /* Initialize bootvid */
     BootVidInit();
 
-    /* Some visual indicator that the system is booting */
-    BootVidClear(BOOT_BG_RGB);
+    /* XXX: Should be configurable by cmdline */
+    BootVidInitCons();
+
+    /* Print version information */
+    Version();
 }

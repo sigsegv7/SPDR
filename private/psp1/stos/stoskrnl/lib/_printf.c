@@ -7,9 +7,13 @@
  */
 
 #include <hal/serial.h>
+#include <drivers/bootvid/fbio.h>
 
 void
 _putchar(char c)
 {
     HalSerialWrite(&c, 1);
+    if (BootVidConsEn()) {
+        BootVidConsWrite(&c, 1);
+    }
 }

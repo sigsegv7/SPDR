@@ -24,4 +24,22 @@ ST_STATUS BootVidInit(VOID);
  */
 VOID BootVidClear(ULONG Color);
 
+/*
+ * Write a string to the boot console
+ *
+ * @String:  String to write
+ * @Length:  Length of string
+ */
+VOID BootVidConsWrite(const CHAR *String, USIZE Length);
+
+/*
+ * Initialize the boot console
+ */
+VOID BootVidInitCons(VOID);
+
+/*
+ * Returns true if the boot console is enabled
+ */
+BOOL BootVidConsEn(VOID);
+
 #endif  /* !_BOOTVID_FBIO_H_ */
