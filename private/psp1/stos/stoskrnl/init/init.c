@@ -8,12 +8,19 @@
 
 #include <stdef.h>
 #include <ke/bpal.h>
+#include <hal/kpcr.h>
+
+/* Globals */
+static KPCR BootstrapCore;
 
 NO_RETURN VOID
 KernelEntry(VOID)
 {
     /* Initialize the BPAL layer */
     KeBpalInit();
+
+    /* Phase 1 init of bootstrap core */
+    HalKpcrP1Init(&BootstrapCore);
 
     for (;;);
 }
