@@ -42,4 +42,15 @@ VOID *RtlMemSet(VOID *Buffer, LONG SetValue, USIZE Length);
  */
 LONG RtlMemCmp(VOID *Buffer1, VOID *Buffer2, USIZE Length);
 
+/*
+ * Copy n bytes of one buffer to another
+ *
+ * @Dest: Destination buffer
+ * @Soruce: Source buffer
+ * @Length: Length of buffers
+ *
+ * Returns @Dest on suucess, otherwise NULL on failure
+ */
+VOID *RtlMemCpy(VOID *Dest, const VOID *Source, USIZE Length);
+
 #endif  /* !_SPKG_STRING_H_ */
