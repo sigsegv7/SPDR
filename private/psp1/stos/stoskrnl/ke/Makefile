@@ -7,6 +7,7 @@
 #
 
 CFILES = $(shell find ../init -name "*.c")
+CFILES += $(shell find ../bpal/ -name "*.c")
 OFILES = $(CFILES:.c=.o)
 DFILES = $(CFILES:.c=.d)
 
@@ -18,6 +19,7 @@ CFLAGS = 			\
 	$(SYS_CFLAGS)   \
 	-I$(PROJECT_ROOT)/public/sdk/head \
 	-I$(SPKG_LOC)/head/ 			  \
+	-I../head							\
 	-D_KERNEL		\
 	-MMD			\
 	-DPRINTF_DISABLE_SUPPORT_PTRDIFF_T \

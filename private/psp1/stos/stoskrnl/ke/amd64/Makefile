@@ -29,6 +29,7 @@ LD =				\
 CFLAGS = 								\
 	$(SYS_CFLAGS)   					\
 	-I$(PROJECT_ROOT)/public/sdk/head/	\
+	-I../../head/						\
 	-D_KERNEL
 
 .PHONY: all
