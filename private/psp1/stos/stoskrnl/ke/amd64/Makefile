@@ -1,4 +1,3 @@
-
 #
 # Copyright (c) 2026, Chloe M.
 # Provided under the BSD-3 clause.
@@ -30,6 +29,7 @@ CFLAGS = 								\
 	$(SYS_CFLAGS)   					\
 	-I$(PROJECT_ROOT)/public/sdk/head/	\
 	-I../../head/						\
+	-I../../head/target/				\
 	-D_KERNEL
 
 .PHONY: all

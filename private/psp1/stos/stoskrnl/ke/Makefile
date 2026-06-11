@@ -19,6 +19,7 @@ CFLAGS = 			\
 	$(SYS_CFLAGS)   \
 	-I$(PROJECT_ROOT)/public/sdk/head \
 	-I$(SPKG_LOC)/head/ 			  \
+	-I../head/target/					\
 	-I../head							\
 	-D_KERNEL		\
 	-MMD			\
@@ -26,7 +27,12 @@ CFLAGS = 			\
 	-DPRINTF_DISABLE_SUPPORT_FLOAT
 
 .PHONY: all
-all: $(OFILES) machine
+all: $(OFILES) target machine
+
+.PHONY: target
+target:
+	mkdir -p ../head/target/machine/
+	rsync -avr ../head/amd64/*.h ../head/target/machine/
 
 .PHONY: machine
 machine:

@@ -5,3 +5,4 @@
 *.img
 /artifacts
 /private/psp1/boot/stand/limine
+/private/psp1/stos/stoskrnl/head/target/
