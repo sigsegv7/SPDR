@@ -9,6 +9,16 @@
 #ifndef _SDK_STDEF_H_
 #define _SDK_STDEF_H_ 1
 
+#if !defined(__cplusplus)
+#define NULL  ((void *)0)
+#else
+#if __cplusplus >= 201103L
+#define NULL  nullptr
+#else
+#define NULL ((void *)0)
+#endif  /* __cplusplus >= 201103L */
+#endif  /* __cplusplus */
+
 /* Compiler specific definitions */
 #define ASMV              __asm__ __volatile__
 #define ATTR(X)           __attribute__((x))
