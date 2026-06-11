@@ -22,8 +22,8 @@ static KPCR BootstrapCore;
 static VOID
 Version(VOID)
 {
-    TRACE("SPDR DR // Slut Technology\n");
-    TRACE("v0.0.1\n");
+    TRACE(":::: SPDR DR // Slut Technology ::::\n");
+    TRACE("::::         v0.0.1             ::::\n");
 }
 
 VOID
