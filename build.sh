@@ -12,6 +12,8 @@ set -e
 PROJECT_ROOT=$(pwd)
 MAKE=make
 DEPCHECK_PATH=$PROJECT_ROOT/artifacts/.depcheck
+FONT_PATH=private/$SERVICE_PACK/base/fonts/Cyr_a8x8.psf
+KERNEL_PATH=artifacts/stoskrnl.sys
 
 #
 # Check if a list of programs are installed on the system
@@ -78,6 +80,14 @@ build() {
     popd
 }
 
+build_post() {
+    # Inject font data into kernel binary
+    objcopy                                 \
+        --add-section .font=$FONT_PATH      \
+        $KERNEL_PATH
+}
+
 mkdir -p artifacts/
 build_verify
 build
+build_post

@@ -8,6 +8,7 @@
 
 CFILES = $(shell find ../init -name "*.c")
 CFILES += $(shell find ../bpal/ -name "*.c")
+CFILES += $(shell find ../drivers/ -name "*.c")
 OFILES = $(CFILES:.c=.o)
 DFILES = $(CFILES:.c=.d)
 

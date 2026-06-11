@@ -40,6 +40,12 @@ SECTIONS
 
     . += CONSTANT(MAXPAGESIZE);
 
+    .font : {
+        KEEP(*(.font .font));
+    }
+
+    . += CONSTANT(MAXPAGESIZE);
+
     .data : {
         *(.data)
     } :data
