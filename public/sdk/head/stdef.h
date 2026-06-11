@@ -69,5 +69,6 @@ typedef unsigned short USHORT;
 typedef unsigned int ULONG;
 typedef unsigned long long UQUAD;
 typedef UQUAD USIZE;
+typedef UQUAD UPTR;
 
 #endif  /* !_SDK_STDEF_H_ */
