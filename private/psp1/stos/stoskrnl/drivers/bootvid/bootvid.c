@@ -7,13 +7,24 @@
  */
 
 #include <drivers/bootvid/fbio.h>
+#include <ke/bpal.h>
 #include <stdef.h>
 
 /* Globals */
 SECTION(".font") static CHAR FontData[4096];
+static KE_BPAL_FRAMEBUFFER *Framebuffer = NULL;
 
 ST_STATUS
-BootInit(void)
+BootVidInit(VOID)
 {
+    ST_STATUS Status;
+    KE_BPAL_HANDLE BpalHandle;
+
+    Status = KeBpalGet(&BpalHandle);
+    if (Status != STATUS_SUCCESS) {
+        return Status;
+    }
+
+    Framebuffer = &BpalHandle.Framebuffer;
     return STATUS_SUCCESS;
 }

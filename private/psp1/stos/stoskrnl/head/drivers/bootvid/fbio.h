@@ -15,6 +15,6 @@
 /*
  * Initialize the boot video driver
  */
-ST_STATUS BootInit(void);
+ST_STATUS BootVidInit(VOID);
 
 #endif  /* !_BOOTVID_FBIO_H_ */

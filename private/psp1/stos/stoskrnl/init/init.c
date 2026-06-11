@@ -10,6 +10,7 @@
 #include <ke/bpal.h>
 #include <hal/kpcr.h>
 #include <hal/serial.h>
+#include <drivers/bootvid/fbio.h>
 
 /* Globals */
 static KPCR BootstrapCore;
@@ -25,6 +26,9 @@ KernelEntry(VOID)
 
     /* Initialize the serial driver */
     HalSerialInit();
+
+    /* Initialize bootvid */
+    BootVidInit();
 
     for (;;);
 }
