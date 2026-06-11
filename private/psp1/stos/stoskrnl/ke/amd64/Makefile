@@ -9,14 +9,16 @@
 
 ASMFILES = $(shell find . -name "*.S")
 CFILES = $(shell find . -name "*.c")
-CFILES += $(shell find ../init -name "*.c")
 
 ASMOFILES = $(ASMFILES:.S=.S.o)
 OFILES = $(CFILES:.c=.o)
 
 PROJECT_ROOT = ../../../../../..
+KERNEL_ROOT = $(PROJECT_ROOT)/private/$(SERVICE_PACK)/stos
 SPKG_LOC = $(PROJECT_ROOT)/private/$(SERVICE_PACK)/spkg/
+
 MISC_OFILES = $(shell find $(SPKG_LOC) -name "*.o")
+MISC_OFILES += $(shell find $(KERNEL_ROOT) -name "*.o")
 
 CC = 				\
 	$(SYS_CC)
@@ -34,6 +36,7 @@ all: $(OFILES) $(ASMOFILES)
 	$(LD) 			   \
 		-Tdevel/link.ld \
 		$(MISC_OFILES) \
+		$(OFILES)		\
 		-o $(PROJECT_ROOT)/artifacts/stoskrnl.sys
 
 %.o: %.c
