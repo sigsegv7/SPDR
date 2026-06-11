@@ -18,7 +18,7 @@
 /* Globals */
 static KPCR BootstrapCore;
 
-NO_RETURN VOID
+VOID
 KernelEntry(VOID)
 {
     /* Initialize the BPAL layer */
@@ -35,6 +35,4 @@ KernelEntry(VOID)
 
     /* Some visual indicator that the system is booting */
     BootVidClear(BOOT_BG_RGB);
-
-    for (;;);
 }

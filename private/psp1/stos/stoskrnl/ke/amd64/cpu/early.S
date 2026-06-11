@@ -15,7 +15,10 @@ _start:
     cld
 
     xor %rbp, %rbp
-    jmp KernelEntry
+    call KernelEntry
+1:  mfence
+    cli
+    jmp 1b
 
     .globl MdCpuInit
     .set IA32_EFER, 0xC0000080
