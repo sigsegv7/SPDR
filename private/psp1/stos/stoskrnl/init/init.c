@@ -12,6 +12,9 @@
 #include <hal/serial.h>
 #include <drivers/bootvid/fbio.h>
 
+/* Boot background */
+#define BOOT_BG_RGB 0xA9A9A9
+
 /* Globals */
 static KPCR BootstrapCore;
 
@@ -29,6 +32,9 @@ KernelEntry(VOID)
 
     /* Initialize bootvid */
     BootVidInit();
+
+    /* Some visual indicator that the system is booting */
+    BootVidClear(BOOT_BG_RGB);
 
     for (;;);
 }
