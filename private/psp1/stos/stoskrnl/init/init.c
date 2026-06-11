@@ -7,10 +7,13 @@
  */
 
 #include <stdef.h>
-#include <string.h>
+#include <ke/bpal.h>
 
 NO_RETURN VOID
 KernelEntry(VOID)
 {
+    /* Initialize the BPAL layer */
+    KeBpalInit();
+
     for (;;);
 }

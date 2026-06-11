@@ -32,4 +32,14 @@ typedef struct {
  */
 ST_STATUS KeBpalInit(VOID);
 
+/*
+ * Obtain the BPAL handle
+ *
+ * @Result: Result is written here
+ */
+ST_STATUS KeBpalGet(KE_BPAL_HANDLE *Result);
+
+/* Backend init routines */
+ST_STATUS KeBpalLimineInit(KE_BPAL_HANDLE *Handle);
+
 #endif  /* !_KE_BPAL_H_ */
