@@ -9,6 +9,10 @@
 #ifndef _SDK_STDEF_H_
 #define _SDK_STDEF_H_ 1
 
+/* Boolean values */
+#define true 1
+#define false 0
+
 #if !defined(__cplusplus)
 #define NULL  ((void *)0)
 #else
