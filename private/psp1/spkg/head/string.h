@@ -31,4 +31,15 @@ USIZE RtlStrLen(const CHAR *String);
  */
 VOID *RtlMemSet(VOID *Buffer, LONG SetValue, USIZE Length);
 
+/*
+ * Compare the differences between two strings
+ *
+ * @Buffer1: First buffer to compare
+ * @Buffer2: Second buffer to compare
+ * @Length:  Number of bytes to compare
+ *
+ * Returns the differences
+ */
+LONG RtlMemCmp(VOID *Buffer1, VOID *Buffer2, USIZE Length);
+
 #endif  /* !_SPKG_STRING_H_ */
