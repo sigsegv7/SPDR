@@ -37,7 +37,6 @@ all: $(OFILES) $(ASMOFILES)
 	$(LD) 			   \
 		-Tdevel/link.ld \
 		$(MISC_OFILES) \
-		$(OFILES)		\
 		-o $(PROJECT_ROOT)/artifacts/stoskrnl.sys
 
 %.o: %.c
