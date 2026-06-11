@@ -51,11 +51,13 @@ typedef char CHAR;
 typedef short SHORT;
 typedef int LONG;
 typedef long long QUAD;
+typedef QUAD SSIZE;
 
 /* Basic unsigned types */
 typedef unsigned char UCHAR;
 typedef unsigned short USHORT;
 typedef unsigned int ULONG;
 typedef unsigned long long UQUAD;
+typedef UQUAD USIZE;
 
 #endif  /* !_SDK_STDEF_H_ */
