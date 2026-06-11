@@ -17,4 +17,11 @@
  */
 ST_STATUS BootVidInit(VOID);
 
+/*
+ * Clear the screen with a solid color
+ *
+ * @Color: Color to clear screen with
+ */
+VOID BootVidClear(ULONG Color);
+
 #endif  /* !_BOOTVID_FBIO_H_ */

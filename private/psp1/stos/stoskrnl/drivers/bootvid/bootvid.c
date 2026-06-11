@@ -12,7 +12,7 @@
 
 /* Globals */
 SECTION(".font") static CHAR FontData[4096];
-static KE_BPAL_FRAMEBUFFER *Framebuffer = NULL;
+static KE_BPAL_FRAMEBUFFER Framebuffer;
 
 ST_STATUS
 BootVidInit(VOID)
@@ -25,6 +25,17 @@ BootVidInit(VOID)
         return Status;
     }
 
-    Framebuffer = &BpalHandle.Framebuffer;
+    Framebuffer = BpalHandle.Framebuffer;
     return STATUS_SUCCESS;
+}
+
+VOID
+BootVidClear(ULONG Color)
+{
+    ULONG *Ptr;
+
+    Ptr = Framebuffer.Address;
+    for (USIZE Idx = 0; Idx < Framebuffer.Height * Framebuffer.Pitch; ++Idx) {
+        Ptr[Idx] = Color;
+    }
 }
