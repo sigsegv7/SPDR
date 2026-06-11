@@ -17,14 +17,33 @@
 #endif  /* !BOOT_PROTOCOL */
 
 /*
+ * Represents a framebuffer
+ */
+typedef struct {
+    VOID *Address;
+    UQUAD Width;
+    UQUAD Height;
+    UQUAD Pitch;
+    SHORT Bpp;
+    UCHAR RedMaskSize;
+    UCHAR RedMaskShift;
+    UCHAR GreenMaskSize;
+    UCHAR GreenMaskShift;
+    UCHAR BlueMaskSize;
+    UCHAR BlueMaskShift;
+} KE_BPAL_FRAMEBUFFER;
+
+/*
  * Represents the handle used to abstract away boot loader
  * specific protocols. It acts as its own protocol for the
  * sake of indirection.
  *
  * @StLoadBase: Slut technology kernel load base
+ * @Framebuffer: Framebuffer descriptor
  */
 typedef struct {
     UPTR StLoadBase;
+    KE_BPAL_FRAMEBUFFER Framebuffer;
 } KE_BPAL_HANDLE;
 
 /*
