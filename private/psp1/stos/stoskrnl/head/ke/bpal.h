@@ -38,10 +38,12 @@ typedef struct {
  * specific protocols. It acts as its own protocol for the
  * sake of indirection.
  *
+ * @CommandLine: Kernel command line
  * @StLoadBase: Slut technology kernel load base
  * @Framebuffer: Framebuffer descriptor
  */
 typedef struct {
+    const CHAR *CommandLine;
     UPTR StLoadBase;
     KE_BPAL_FRAMEBUFFER Framebuffer;
 } KE_BPAL_HANDLE;

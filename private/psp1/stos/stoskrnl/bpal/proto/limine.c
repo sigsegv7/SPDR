@@ -25,6 +25,13 @@ static struct limine_framebuffer_request FbReq = {
     .revision = 0
 };
 
+/* Command line request */
+static struct limine_executable_cmdline_response *CmdLineResp = NULL;
+static struct limine_executable_cmdline_request CmdLineReq = {
+    .id = LIMINE_EXECUTABLE_CMDLINE_REQUEST,
+    .revision = 0
+};
+
 VOID
 BpalInitFramebuffer(KE_BPAL_HANDLE *Handle)
 {
@@ -56,8 +63,10 @@ KeBpalLimineInit(KE_BPAL_HANDLE *Handle)
 
     HHDMResp = HHDMReq.response;
     FbResp = FbReq.response;
+    CmdLineResp = CmdLineReq.response;
 
     BpalInitFramebuffer(Handle);
     Handle->StLoadBase = HHDMResp->offset;
+    Handle->CommandLine = CmdLineResp->cmdline;
     return STATUS_SUCCESS;
 }
