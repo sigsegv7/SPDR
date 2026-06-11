@@ -9,10 +9,14 @@
 #include <drivers/bootvid/fbio.h>
 #include <ke/bpal.h>
 #include <stdef.h>
+#include "flanterm.h"
+#include "flanterm_backends/fb.h"
 
-/* Globals */
-SECTION(".font") static CHAR FontData[4096];
+#define DEFAULT_BG 0x000000
+#define DEFAULT_FG 0xAFE1AF
+
 static KE_BPAL_FRAMEBUFFER Framebuffer;
+static struct flanterm_context *FtCtx = NULL;
 
 ST_STATUS
 BootVidInit(VOID)
@@ -27,6 +31,40 @@ BootVidInit(VOID)
 
     Framebuffer = BpalHandle.Framebuffer;
     return STATUS_SUCCESS;
+}
+
+VOID
+BootVidInitCons(VOID)
+{
+    ULONG Foreground, Background;
+
+    Foreground = DEFAULT_FG;
+    Background = DEFAULT_BG;
+
+    FtCtx = flanterm_fb_init(
+        NULL,
+        NULL,
+        Framebuffer.Address,
+        Framebuffer.Width,
+        Framebuffer.Height,
+        Framebuffer.Pitch,
+        Framebuffer.RedMaskSize,
+        Framebuffer.RedMaskShift,
+        Framebuffer.GreenMaskSize,
+        Framebuffer.GreenMaskShift,
+        Framebuffer.BlueMaskSize,
+        Framebuffer.BlueMaskShift,
+        NULL,
+        NULL,
+        NULL,
+        &Background,
+        &Foreground,
+        NULL,
+        NULL,
+        NULL,
+        0, 0, 0,
+        0, 0, 0, 0
+    );
 }
 
 VOID

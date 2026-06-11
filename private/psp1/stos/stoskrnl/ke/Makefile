@@ -22,6 +22,7 @@ CFLAGS = 			\
 	$(SYS_CFLAGS)   \
 	-I$(PROJECT_ROOT)/public/sdk/head \
 	-I$(SPKG_LOC)/head/ 			  \
+	-I../xt/flanterm/src				\
 	-I../head/target/					\
 	-I../head							\
 	-D_KERNEL		\

@@ -80,14 +80,6 @@ build() {
     popd
 }
 
-build_post() {
-    # Inject font data into kernel binary
-    objcopy                                 \
-        --add-section .font=$FONT_PATH      \
-        $KERNEL_PATH
-}
-
 mkdir -p artifacts/
 build_verify
 build
-build_post
