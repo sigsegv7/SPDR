@@ -20,4 +20,15 @@
  */
 USIZE RtlStrLen(const CHAR *String);
 
+/*
+ * Fill n bytes of a buffer with a value
+ *
+ * @Buffer:     Pointer to buffer to fill
+ * @SetValue:   Value to fill with
+ * @Length:     Number of bytes to fill
+ *
+ * Returns @Buffer on success, otherwise NULL on failure
+ */
+VOID *RtlMemSet(VOID *Buffer, LONG SetValue, USIZE Length);
+
 #endif  /* !_SPKG_STRING_H_ */
