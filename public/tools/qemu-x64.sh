@@ -11,5 +11,5 @@ qemu-system-x86_64            \
     -cdrom artifacts/spdr.iso \
     --enable-kvm              \
     -m 2G                     \
-    -monitor stdio            \
+    -serial stdio             \
     -cpu host

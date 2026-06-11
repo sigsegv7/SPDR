@@ -9,6 +9,7 @@
 #include <stdef.h>
 #include <ke/bpal.h>
 #include <hal/kpcr.h>
+#include <hal/serial.h>
 
 /* Globals */
 static KPCR BootstrapCore;
@@ -21,6 +22,9 @@ KernelEntry(VOID)
 
     /* Phase 1 init of bootstrap core */
     HalKpcrP1Init(&BootstrapCore);
+
+    /* Initialize the serial driver */
+    HalSerialInit();
 
     for (;;);
 }
