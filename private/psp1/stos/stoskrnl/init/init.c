@@ -9,6 +9,7 @@
 #include <stdef.h>
 #include <ke/bpal.h>
 #include <ex/trace.h>
+#include <ex/cmdline.h>
 #include <hal/kpcr.h>
 #include <hal/serial.h>
 #include <drivers/bootvid/fbio.h>
@@ -41,8 +42,8 @@ KernelEntry(VOID)
     /* Initialize bootvid */
     BootVidInit();
 
-    /* XXX: Should be configurable by cmdline */
-    BootVidInitCons();
+    /* Parse the command line */
+    ExCmdLineInit();
 
     /* Print version information */
     Version();
