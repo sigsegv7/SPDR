@@ -14,8 +14,9 @@ CFILES += $(shell find ../init -name "*.c")
 ASMOFILES = $(ASMFILES:.S=.S.o)
 OFILES = $(CFILES:.c=.o)
 
-MISC_OFILES = $(shell find ../../ -name "*.o")
 PROJECT_ROOT = ../../../../../..
+SPKG_LOC = $(PROJECT_ROOT)/private/$(SERVICE_PACK)/spkg/
+MISC_OFILES = $(shell find $(SPKG_LOC) -name "*.o")
 
 CC = 				\
 	$(SYS_CC)

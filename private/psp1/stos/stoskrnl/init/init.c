@@ -7,6 +7,7 @@
  */
 
 #include <stdef.h>
+#include <string.h>
 
 NO_RETURN VOID
 KernelEntry(VOID)

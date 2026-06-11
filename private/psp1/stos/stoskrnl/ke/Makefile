@@ -11,11 +11,13 @@ OFILES = $(CFILES:.c=.o)
 DFILES = $(CFILES:.c=.d)
 
 CC = clang
-PROJECT_ROOT=../../../../..
+PROJECT_ROOT = ../../../../..
+SPKG_LOC = $(PROJECT_ROOT)/private/$(SERVICE_PACK)/spkg/
 
 CFLAGS = 			\
 	$(SYS_CFLAGS)   \
 	-I$(PROJECT_ROOT)/public/sdk/head \
+	-I$(SPKG_LOC)/head/ 			  \
 	-D_KERNEL		\
 	-MMD			\
 	-DPRINTF_DISABLE_SUPPORT_PTRDIFF_T \

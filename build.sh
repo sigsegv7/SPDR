@@ -65,6 +65,10 @@ build() {
         $MAKE
     popd
 
+    pushd private/$SERVICE_PACK/spkg; \
+        $MAKE
+    popd
+
     pushd private/$SERVICE_PACK/stos; \
         $MAKE
     popd
