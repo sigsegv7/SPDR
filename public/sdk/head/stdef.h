@@ -55,6 +55,7 @@
 
 /* Basic types */
 typedef void VOID;
+typedef _Bool BOOL;
 
 /* Basic signed types */
 typedef char CHAR;
