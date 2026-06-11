@@ -8,6 +8,7 @@
 
 #include <stdef.h>
 #include <ke/bpal.h>
+#include <ex/trace.h>
 #include <hal/kpcr.h>
 #include <hal/serial.h>
 #include <drivers/bootvid/fbio.h>
@@ -17,6 +18,13 @@
 
 /* Globals */
 static KPCR BootstrapCore;
+
+static VOID
+Version(VOID)
+{
+    TRACE("SPDR DR // Slut Technology\n");
+    TRACE("v0.0.1\n");
+}
 
 VOID
 KernelEntry(VOID)
@@ -29,6 +37,9 @@ KernelEntry(VOID)
 
     /* Initialize the serial driver */
     HalSerialInit();
+
+    /* Print version information */
+    Version();
 
     /* Initialize bootvid */
     BootVidInit();
