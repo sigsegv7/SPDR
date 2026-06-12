@@ -56,6 +56,11 @@ VOID BootVidSplash(VOID);
 VOID BootVidInitCons(BOOTCONS_ATTR *Attr);
 
 /*
+ * Turn off the boot console
+ */
+VOID BootVidDeInitCons(VOID);
+
+/*
  * Returns true if the boot console is enabled
  */
 BOOL BootVidConsEn(VOID);

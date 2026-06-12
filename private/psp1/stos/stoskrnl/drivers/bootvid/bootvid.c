@@ -46,7 +46,7 @@ VOID
 BootVidInitCons(BOOTCONS_ATTR *Attr)
 {
     if (BootConsEnabled) {
-        return;
+        BootVidDeInitCons();
     }
 
     if (Attr == NULL) {
@@ -79,6 +79,18 @@ BootVidInitCons(BOOTCONS_ATTR *Attr)
     );
 
     BootConsEnabled = true;
+}
+
+VOID
+BootVidDeInitCons(VOID)
+{
+    if (!BootConsEnabled) {
+        return;
+    }
+
+    flanterm_deinit(FtCtx, NULL);
+    FtCtx = NULL;
+    BootConsEnabled = false;
 }
 
 VOID
