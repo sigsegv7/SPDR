@@ -11,11 +11,9 @@
 #include <ex/trace.h>
 #include <ex/cmdline.h>
 #include <hal/kpcr.h>
+#include <hal/mmio.h>
 #include <hal/serial.h>
 #include <drivers/bootvid/fbio.h>
-
-/* Boot background */
-#define BOOT_BG_RGB 0xA9A9A9
 
 /* Globals */
 static KPCR BootstrapCore;
@@ -44,6 +42,11 @@ KernelEntry(VOID)
 
     /* Parse the command line */
     ExCmdLineInit();
+
+    /* Draw splash if bootcons is disabled */
+    if (!BootVidConsEn()) {
+        BootVidSplash();
+    }
 
     /* Print version information */
     Version();

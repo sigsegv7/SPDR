@@ -12,8 +12,12 @@
 #include "flanterm.h"
 #include "flanterm_backends/fb.h"
 
+/* Bootcons attributes */
 #define DEFAULT_BG 0x000000
 #define DEFAULT_FG 0xAFE1AF
+
+/* Boot background */
+#define BOOT_BG_RGB 0xA9A9A9
 
 static KE_BPAL_FRAMEBUFFER Framebuffer;
 static struct flanterm_context *FtCtx = NULL;
@@ -97,6 +101,12 @@ BootVidConsWrite(const CHAR *String, USIZE Length)
     }
 
     flanterm_write(FtCtx, String, Length);
+}
+
+VOID
+BootVidSplash(VOID)
+{
+    BootVidClear(BOOT_BG_RGB);
 }
 
 BOOL

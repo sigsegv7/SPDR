@@ -33,6 +33,11 @@ VOID BootVidClear(ULONG Color);
 VOID BootVidConsWrite(const CHAR *String, USIZE Length);
 
 /*
+ * Render the boot splash
+ */
+VOID BootVidSplash(VOID);
+
+/*
  * Initialize the boot console
  */
 VOID BootVidInitCons(VOID);
