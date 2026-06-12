@@ -29,7 +29,7 @@ typedef struct {
  * @Path: Path to file to lookup
  * @Result: Result is written here
  */
-ST_STATUS ExPbiLookup(const UCHAR *Path, EX_BPI_FILE *Result);
+ST_STATUS ExPbiLookup(CHAR *Path, EX_BPI_FILE *Result);
 
 /*
  * Initialize the pre-boot image manaer
