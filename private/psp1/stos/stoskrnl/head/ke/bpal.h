@@ -34,6 +34,17 @@ typedef struct {
 } KE_BPAL_FRAMEBUFFER;
 
 /*
+ * Bootloader module
+ *
+ * @Data: Data backed by module
+ * @Length: Length of data in bytes
+ */
+typedef struct {
+    VOID *Data;
+    USIZE Length;
+} KE_BPAL_MODULE;
+
+/*
  * Represents the handle used to abstract away boot loader
  * specific protocols. It acts as its own protocol for the
  * sake of indirection.
@@ -41,11 +52,13 @@ typedef struct {
  * @CommandLine: Kernel command line
  * @StLoadBase: Slut technology kernel load base
  * @Framebuffer: Framebuffer descriptor
+ * @ModuleLookup: Callback to lookup boot module
  */
 typedef struct {
     const CHAR *CommandLine;
     UPTR StLoadBase;
     KE_BPAL_FRAMEBUFFER Framebuffer;
+    ST_STATUS(*ModuleLookup)(CHAR *Path, KE_BPAL_MODULE *Result);
 } KE_BPAL_HANDLE;
 
 /*

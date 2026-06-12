@@ -8,6 +8,7 @@
 
 #include <ke/bpal.h>
 #include <lib/limine.h>
+#include <string.h>
 
 #define FRAMEBUFFER FbResp->framebuffers[0]
 
@@ -31,6 +32,44 @@ static struct limine_executable_cmdline_request CmdLineReq = {
     .id = LIMINE_EXECUTABLE_CMDLINE_REQUEST,
     .revision = 0
 };
+
+/* Module request */
+static struct limine_module_response *ModResp = NULL;
+static volatile struct limine_module_request ModReq = {
+    .id = LIMINE_MODULE_REQUEST,
+    .revision = 0
+};
+
+static ST_STATUS
+LimineModuleLookup(CHAR *Path, KE_BPAL_MODULE *Result)
+{
+    struct limine_file *Module;
+    USIZE PathLen;
+
+    if (Path == NULL || Result == NULL) {
+        return STATUS_INVALID_PARAM;
+    }
+
+    if (ModResp == NULL) {
+        return STATUS_NOT_FOUND;
+    }
+
+    PathLen = RtlStrLen(Path);
+    for (USIZE Idx = 0; Idx < ModResp->module_count; ++Idx) {
+        Module = ModResp->modules[Idx];
+        if (*Module->path != *Path) {
+            continue;
+        }
+
+        if (RtlMemCmp(Module->path, Path, PathLen) == 0) {
+            Result->Data = Module->address;
+            Result->Length = Module->size;
+            return STATUS_SUCCESS;
+        }
+    }
+
+    return STATUS_NOT_FOUND;
+}
 
 VOID
 BpalInitFramebuffer(KE_BPAL_HANDLE *Handle)
@@ -64,9 +103,11 @@ KeBpalLimineInit(KE_BPAL_HANDLE *Handle)
     HHDMResp = HHDMReq.response;
     FbResp = FbReq.response;
     CmdLineResp = CmdLineReq.response;
+    ModResp = ModReq.response;
 
     BpalInitFramebuffer(Handle);
     Handle->StLoadBase = HHDMResp->offset;
     Handle->CommandLine = CmdLineResp->cmdline;
+    Handle->ModuleLookup = LimineModuleLookup;
     return STATUS_SUCCESS;
 }
