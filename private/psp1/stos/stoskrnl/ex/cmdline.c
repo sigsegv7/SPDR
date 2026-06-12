@@ -28,7 +28,7 @@ CmdSetBootCons(CHAR *CmdValue)
     }
 
     if (RtlMemCmp(CmdValue, VALUE_TRUE, sizeof(VALUE_TRUE)) == 0) {
-        BootVidInitCons();
+        BootVidInitCons(NULL);
     }
 }
 

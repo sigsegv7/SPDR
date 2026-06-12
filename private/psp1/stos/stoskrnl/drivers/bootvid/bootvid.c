@@ -22,6 +22,10 @@
 static KE_BPAL_FRAMEBUFFER Framebuffer;
 static struct flanterm_context *FtCtx = NULL;
 static BOOL BootConsEnabled = false;
+static BOOTCONS_ATTR DefaultConsAttr = {
+    .Foreground = DEFAULT_FG,
+    .Background = DEFAULT_BG
+};
 
 ST_STATUS
 BootVidInit(VOID)
@@ -39,16 +43,15 @@ BootVidInit(VOID)
 }
 
 VOID
-BootVidInitCons(VOID)
+BootVidInitCons(BOOTCONS_ATTR *Attr)
 {
-    ULONG Foreground, Background;
-
     if (BootConsEnabled) {
         return;
     }
 
-    Foreground = DEFAULT_FG;
-    Background = DEFAULT_BG;
+    if (Attr == NULL) {
+        Attr = &DefaultConsAttr;
+    }
 
     FtCtx = flanterm_fb_init(
         NULL,
@@ -66,8 +69,8 @@ BootVidInitCons(VOID)
         NULL,
         NULL,
         NULL,
-        &Background,
-        &Foreground,
+        &Attr->Background,
+        &Attr->Foreground,
         NULL,
         NULL,
         NULL,

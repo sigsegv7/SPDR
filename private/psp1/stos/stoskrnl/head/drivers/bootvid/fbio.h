@@ -13,6 +13,17 @@
 #include <stdef.h>
 
 /*
+ * Boot console attributes
+ *
+ * @Background: Console background color
+ * @Foreground: Console foreground color
+ */
+typedef struct {
+    ULONG Background;
+    ULONG Foreground;
+} BOOTCONS_ATTR;
+
+/*
  * Initialize the boot video driver
  */
 ST_STATUS BootVidInit(VOID);
@@ -39,8 +50,10 @@ VOID BootVidSplash(VOID);
 
 /*
  * Initialize the boot console
+ *
+ * @Attr: Attributes to set [NULL for default]
  */
-VOID BootVidInitCons(VOID);
+VOID BootVidInitCons(BOOTCONS_ATTR *Attr);
 
 /*
  * Returns true if the boot console is enabled
