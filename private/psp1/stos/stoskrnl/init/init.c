@@ -23,7 +23,7 @@ static VOID
 Version(VOID)
 {
     TRACE(":::: SPDR DR // Slut Technology ::::\n");
-    TRACE("::::         v0.0.1             ::::\n");
+    TRACE("::::         v0.0.1             ::::\n\n");
 }
 
 VOID
