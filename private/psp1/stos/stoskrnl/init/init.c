@@ -54,4 +54,7 @@ KernelEntry(VOID)
 
     /* Print version information */
     Version();
+
+    /* Phase 2 init of bootstrap core */
+    HalKpcrP2Init(&BootstrapCore);
 }

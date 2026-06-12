@@ -9,16 +9,19 @@
 #ifndef _HAL_KPCR_H_
 #define _HAL_KPCR_H_ 1
 
+#include <machine/mcb.h>
 #include <stdef.h>
 
 /*
  * Represents a kernel processor control region describing
  * machine independent details about a processor core.
  *
- * @CoreId:  Processor core ID
+ * @CoreId:     Processor core ID
+ * @CoreData:   Machine core block
  */
 typedef struct {
     UCHAR CoreId;
+    MCB CoreData;
 } KPCR;
 
 /*
@@ -27,5 +30,12 @@ typedef struct {
  * @Kpcr: KPCR of processor to initialize
  */
 VOID HalKpcrP1Init(KPCR *Kpcr);
+
+/*
+ * KPCR phase 2 initialization
+ *
+ * @Kpcr: KPCR of processor to initialize
+ */
+VOID HalKpcrP2Init(KPCR *Kpcr);
 
 #endif  /* !_HAL_KPCR_H_ */
