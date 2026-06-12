@@ -32,7 +32,7 @@ CFLAGS = 			\
 	-DPRINTF_DISABLE_SUPPORT_FLOAT
 
 .PHONY: all
-all: $(OFILES) target machine
+all: target $(OFILES) machine
 
 .PHONY: target
 target:
