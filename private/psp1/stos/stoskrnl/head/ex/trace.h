@@ -11,6 +11,7 @@
 
 #include <lib/printf.h>
 
-#define TRACE  printf
+#define TRACE       printf
+#define FmtPrintf   vsnprintf
 
 #endif  /* !_EX_TRACE_H_ */
