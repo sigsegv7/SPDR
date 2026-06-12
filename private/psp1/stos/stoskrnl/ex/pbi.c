@@ -73,7 +73,6 @@ ExPbiLookup(CHAR *Path, EX_BPI_FILE *Result)
     return STATUS_NOT_FOUND;
 }
 
-#include <ex/trace.h>
 ST_STATUS
 ExPbiInit(VOID)
 {
