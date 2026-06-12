@@ -40,6 +40,13 @@ static volatile struct limine_module_request ModReq = {
     .revision = 0
 };
 
+/* Memory map request */
+static struct limine_memmap_response *MapResp = NULL;
+static volatile struct limine_memmap_request MapReq = {
+    .id = LIMINE_MEMMAP_REQUEST,
+    .revision = 0
+};
+
 static ST_STATUS
 LimineModuleLookup(CHAR *Path, KE_BPAL_MODULE *Result)
 {
@@ -69,6 +76,22 @@ LimineModuleLookup(CHAR *Path, KE_BPAL_MODULE *Result)
     }
 
     return STATUS_NOT_FOUND;
+}
+
+static ST_STATUS
+LimineMemEntryIdx(USIZE Idx, KE_MEMMAP_ENTRY *Result)
+{
+    struct limine_memmap_entry *Entry;
+
+    if (Idx >= MapResp->entry_count) {
+        return STATUS_NOT_FOUND;
+    }
+
+    Entry = MapResp->entries[Idx];
+    Result->Base = Entry->base;
+    Result->Length = Entry->length;
+    Result->Type = Entry->type;
+    return STATUS_SUCCESS;
 }
 
 VOID
@@ -104,10 +127,12 @@ KeBpalLimineInit(KE_BPAL_HANDLE *Handle)
     FbResp = FbReq.response;
     CmdLineResp = CmdLineReq.response;
     ModResp = ModReq.response;
+    MapResp = MapReq.response;
 
     BpalInitFramebuffer(Handle);
     Handle->StLoadBase = HHDMResp->offset;
     Handle->CommandLine = CmdLineResp->cmdline;
     Handle->ModuleLookup = LimineModuleLookup;
+    Handle->MemEntryIdx = LimineMemEntryIdx;
     return STATUS_SUCCESS;
 }

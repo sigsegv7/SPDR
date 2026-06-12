@@ -24,6 +24,16 @@ KeBpalGet(KE_BPAL_HANDLE *Result)
 }
 
 ST_STATUS
+KeBpalMemEntry(USIZE Idx, KE_MEMMAP_ENTRY *Result)
+{
+    if (BpalHandle.MemEntryIdx == NULL) {
+        return STATUS_IO_ERROR;
+    }
+
+    return BpalHandle.MemEntryIdx(Idx, Result);
+}
+
+ST_STATUS
 KeBpalInit(VOID)
 {
     CHAR *BootProtocol = BOOT_PROTOCOL;
