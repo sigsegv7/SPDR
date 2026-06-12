@@ -10,6 +10,7 @@
 #include <ke/bpal.h>
 #include <ex/trace.h>
 #include <ex/cmdline.h>
+#include <ex/pbi.h>
 #include <hal/kpcr.h>
 #include <hal/mmio.h>
 #include <hal/serial.h>
@@ -42,6 +43,9 @@ KernelEntry(VOID)
 
     /* Parse the command line */
     ExCmdLineInit();
+
+    /* Initialize the pre-boot image */
+    ExPbiInit();
 
     /* Draw splash if bootcons is disabled */
     if (!BootVidConsEn()) {
