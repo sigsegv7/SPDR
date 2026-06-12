@@ -8,12 +8,16 @@ set -e
 
 ISO=../../../artifacts/spdr.iso
 CONFIG=../base/boot/limine.conf
+WALLPAPER=../base/boot/wallpaper.jpg
 KERNEL=../../../artifacts/stoskrnl.sys
 
 mkdir -p iso_root/boot/
 
 # Copy the kernel to the ISO root
 cp $KERNEL iso_root/boot
+
+# Copy the wallpaper
+cp $WALLPAPER iso_root/boot
 
 # Copy boot files
 cp $CONFIG stand/limine/limine-bios.sys \
