@@ -12,8 +12,8 @@
 #include <ex/cmdline.h>
 #include <ex/pbi.h>
 #include <hal/kpcr.h>
-#include <hal/mmio.h>
 #include <hal/serial.h>
+#include <mm/pframe.h>
 #include <drivers/bootvid/fbio.h>
 
 /* Globals */
@@ -57,4 +57,7 @@ KernelEntry(VOID)
 
     /* Phase 2 init of bootstrap core */
     HalKpcrP2Init(&BootstrapCore);
+
+    /* Initialize the pageframe manager */
+    MmPFrameInit();
 }

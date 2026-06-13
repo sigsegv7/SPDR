@@ -13,6 +13,7 @@ CFILES += $(shell find ../drivers/ -name "*.c")
 CFILES += $(shell find ../xt/ -name "*.c")
 CFILES += $(shell find ../ex/ -name "*.c")
 CFILES += $(shell find ../lib/ -name "*.c")
+CFILES += $(shell find ../mm/ -name "*.c")
 OFILES = $(CFILES:.c=.o)
 DFILES = $(CFILES:.c=.d)
 
