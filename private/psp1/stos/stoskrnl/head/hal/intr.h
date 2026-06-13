@@ -46,4 +46,22 @@ typedef struct {
  */
 UCHAR HalRegisterIntr(INTR_HANDLER *Handler);
 
+/*
+ * Raise the IRQL for the current processor
+ *
+ * @Irql: IRQL to raise to
+ *
+ * Returns the previous IRQL before being raised
+ */
+UCHAR HalRaiseIrql(UCHAR Irql);
+
+/*
+ * Lower the IRQL for the current processor
+ *
+ * @Irql: IRQL to lower to
+ *
+ * Returns the previous IRQL before being lowered
+ */
+UCHAR HalLowerIrql(UCHAR Irql);
+
 #endif  /* !_HAL_INTR_H_ */

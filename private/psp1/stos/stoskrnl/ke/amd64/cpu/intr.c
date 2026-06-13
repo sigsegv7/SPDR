@@ -7,8 +7,10 @@
  */
 
 #include <hal/intr.h>
+#include <hal/kpcr.h>
 #include <machine/intr.h>
 #include <machine/idt.h>
+#include <ke/knot.h>
 #include <stdef.h>
 
 /*
@@ -59,4 +61,58 @@ HalRegisterIntr(INTR_HANDLER *Handler)
 
     /* Resources have been saturated */
     return 0;
+}
+
+UCHAR
+HalRaiseIrql(UCHAR Irql)
+{
+    KPCR *Self;
+    UCHAR OldIrql;
+
+    if ((Self = HalKpcrSelf()) == NULL) {
+        return IRQL_NONE;
+    }
+
+    if (Irql < Self->Irql) {
+        KeKnot("IRQL_NOT_GREATER_THAN_OR_EQUAL\n");
+    }
+
+    OldIrql = Self->Irql;
+    ASMV(
+        "mov %0, %%rax\n"
+        "mov %%rax, %%cr8"
+        :
+        : "r" ((UQUAD)Irql)
+        : "rax", "memory"
+    );
+
+    Self->Irql = Irql;
+    return OldIrql;
+}
+
+UCHAR
+HalLowerIrql(UCHAR Irql)
+{
+    KPCR *Self;
+    UCHAR OldIrql;
+
+    if ((Self = HalKpcrSelf()) == NULL) {
+        return IRQL_NONE;
+    }
+
+    if (Irql > Self->Irql) {
+        KeKnot("IRQL_NOT_LESS_THAN_OR_EQUAL\n");
+    }
+
+    OldIrql = Self->Irql;
+    ASMV(
+        "mov %0, %%rax\n"
+        "mov %%rax, %%cr8"
+        :
+        : "r" ((UQUAD)Irql)
+        : "rax", "memory"
+    );
+
+    Self->Irql = Irql;
+    return OldIrql;
 }

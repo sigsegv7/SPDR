@@ -7,6 +7,7 @@
  */
 
 #include <hal/kpcr.h>
+#include <hal/intr.h>
 #include <ex/trace.h>
 #include <machine/cpuid.h>
 #include <machine/msr.h>
@@ -58,6 +59,9 @@ HalKpcrP1Init(KPCR *Kpcr)
      * be overriden by the component initializing the processors.
      */
     Kpcr->CoreId = 0;
+
+    /* We default to nothing blocked */
+    Kpcr->Irql = IRQL_NONE;
 
     /* Initialize machine specific bits */
     MdCpuInit();

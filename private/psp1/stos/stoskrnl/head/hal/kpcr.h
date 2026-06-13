@@ -18,10 +18,12 @@
  *
  * @CoreId:     Processor core ID
  * @CoreData:   Machine core block
+ * @Irql:       Current interrupt request level
  */
 typedef struct {
     UCHAR CoreId;
     MCB CoreData;
+    UCHAR Irql;
 } KPCR;
 
 /*
