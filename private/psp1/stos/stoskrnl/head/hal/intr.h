@@ -13,10 +13,10 @@
 #include <machine/intr.h>
 
 /* Interrupt priority levels */
-#define IPL_NONE  0     /* Don't defer any interrupts */
-#define IPL_BIO   1     /* Defer I/O */
-#define IPL_CLOCK 2     /* Defer clock interrupts */
-#define IPL_HIGH  3     /* Defer everything */
+#define IRQL_NONE  0     /* Don't defer any interrupts */
+#define IRQL_BIO   1     /* Defer I/O */
+#define IRQL_CLOCK 2     /* Defer clock interrupts */
+#define IRQL_HIGH  3     /* Defer everything */
 
 #define SERVICE_ROUTINE(ISR) \
     ((UPTR)(ISR))
