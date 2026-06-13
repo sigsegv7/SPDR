@@ -16,4 +16,11 @@
  */
 VOID MmPFrameInit(VOID);
 
+/*
+ * Request a single page
+ *
+ * Returns the physical memory base on success
+ */
+UPTR MmRequestPage(VOID);
+
 #endif  /* !_MM_PFRAME_H_ */
