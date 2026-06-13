@@ -9,6 +9,7 @@
 #include <hal/kpcr.h>
 #include <ex/trace.h>
 #include <machine/cpuid.h>
+#include <machine/msr.h>
 
 #define DTRACE(fmt, ...) \
     TRACE("[ CPU ]: " fmt, ##__VA_ARGS__)
@@ -60,6 +61,9 @@ HalKpcrP1Init(KPCR *Kpcr)
 
     /* Initialize machine specific bits */
     MdCpuInit();
+
+    /* Set as the current processor */
+    MdWrmsr(IA32_GS_BASE, (UPTR)Kpcr);
 }
 
 VOID
@@ -73,4 +77,10 @@ HalKpcrP2Init(KPCR *Kpcr)
 
     Mcb = &Kpcr->CoreData;
     CpuIdentify(Mcb);
+}
+
+KPCR *
+HalKpcrSelf(VOID)
+{
+    return (KPCR *)MdRdmsr(IA32_GS_BASE);
 }

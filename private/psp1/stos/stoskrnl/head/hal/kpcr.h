@@ -38,4 +38,9 @@ VOID HalKpcrP1Init(KPCR *Kpcr);
  */
 VOID HalKpcrP2Init(KPCR *Kpcr);
 
+/*
+ * Obtain a reference to the current processor context
+ */
+KPCR *HalKpcrSelf(VOID);
+
 #endif  /* !_HAL_KPCR_H_ */
