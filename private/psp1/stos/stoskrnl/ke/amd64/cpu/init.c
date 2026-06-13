@@ -10,6 +10,7 @@
 #include <hal/intr.h>
 #include <ex/trace.h>
 #include <machine/cpuid.h>
+#include <machine/idt.h>
 #include <machine/msr.h>
 
 #define DTRACE(fmt, ...) \
@@ -17,6 +18,7 @@
 
 /* Externs */
 extern VOID MdCpuInit(VOID);
+extern VOID MdVectorInit(VOID);
 
 VOID
 CpuIdentify(MCB *Mcb)
@@ -68,6 +70,12 @@ HalKpcrP1Init(KPCR *Kpcr)
 
     /* Set as the current processor */
     MdWrmsr(IA32_GS_BASE, (UPTR)Kpcr);
+
+    /* Initialize interrupt vectors */
+    MdVectorInit();
+
+    /* Load the IDT */
+    MdIdtLoad();
 }
 
 VOID
