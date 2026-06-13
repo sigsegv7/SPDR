@@ -11,4 +11,8 @@
 
 #define IPL_SHIFT 4
 
+/* List of predefined vectors */
+#define VECTOR_SYSCALL 0x80
+#define VECTOR_SCHED   0x81
+
 #endif  /* !_MACHINE_INTR_H_ */

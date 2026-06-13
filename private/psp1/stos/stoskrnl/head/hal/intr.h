@@ -26,10 +26,24 @@
  *
  * @ServiceRoutine: Interrupt service routine base
  * @Priority:       Interrupt priority
+ * @Present:        Must be set to be valid
+ *
+ * XXX: The present bit is set by HalRegisterIntr() and does
+ *      not need to be set manually.
  */
 typedef struct {
     UPTR ServiceRoutine;
     UCHAR Priority : 4;
+    UCHAR Present  : 1;
 } INTR_HANDLER;
+
+/*
+ * Register an interrupt handler
+ *
+ * @Handler: Handler to register
+ *
+ * Returns interrupt vector on success
+ */
+UCHAR HalRegisterIntr(INTR_HANDLER *Handler);
 
 #endif  /* !_HAL_INTR_H_ */
