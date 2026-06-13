@@ -98,11 +98,14 @@ MdVectorInit:
     pop %r12
     retq
 
+    .text
+    .extern MdTrapDispatch
     .align 8
 DivErr:
     KFENCE
     PushFrame 0x00
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE
 1:  cli
     hlt
@@ -112,6 +115,7 @@ DebugExcept:
     KFENCE
     PushFrame 0x1
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE
 1:  cli
     hlt
@@ -121,6 +125,7 @@ Nmi:
     KFENCE
     PushFrame 0x2
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE
 1:  cli
     hlt
@@ -130,6 +135,7 @@ Breakpoint:
     KFENCE
     PushFrame 0x3
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE
 1:  cli
     hlt
@@ -139,6 +145,7 @@ Overflow:
     KFENCE
     PushFrame 0x4
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE
 1:  cli
     hlt
@@ -148,6 +155,7 @@ BoundRange:
     KFENCE
     PushFrame 0x5
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE
 1:  cli
     hlt
@@ -157,6 +165,7 @@ InvalidOpcode:
     KFENCE
     PushFrame 0x6
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE
 1:  cli
     hlt
@@ -166,6 +175,7 @@ NoCoproc:
     KFENCE
     PushFrame 0x7
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE
 1:  cli
     hlt
@@ -175,6 +185,7 @@ DoubleFault:
     KFENCE_EC
     PushFrame 0x8
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE_EC
 1:  cli
     hlt
@@ -184,6 +195,7 @@ InvalidTss:
     KFENCE_EC
     PushFrame 0xA
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE_EC
 1:  cli
     hlt
@@ -193,6 +205,7 @@ SegNp:
     KFENCE_EC
     PushFrame 0xB
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE_EC
 1:  cli
     hlt
@@ -202,6 +215,7 @@ StackSegFault:
     KFENCE_EC
     PushFrame 0xC
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE_EC
 1:  cli
     hlt
@@ -211,6 +225,7 @@ Gpf:
     KFENCE_EC
     PushFrame 0xD
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE_EC
 1:  cli
     hlt
@@ -220,6 +235,7 @@ PageFault:
     KFENCE_EC
     PushFrame 0xE
     mov %rsp, %rdi
+    call MdTrapDispatch
     KFENCE_EC
 1:  cli
     hlt
