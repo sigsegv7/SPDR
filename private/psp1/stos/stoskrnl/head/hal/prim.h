@@ -11,7 +11,8 @@
 
 #include <machine/prim.h>
 
-#define HalCpuSuspend()  MdCpuSuspend
-#define HalCpuSpinWait() MdCpuSpinWait
+#define HalCpuSuspend    MdCpuSuspend
+#define HalCpuSpinWait   MdCpuSpinWait
+#define HalCpuAswap      MdCpuAswap
 
 #endif  /* !_HAL_PRIM_H_ */
