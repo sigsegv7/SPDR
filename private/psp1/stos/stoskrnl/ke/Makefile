@@ -7,7 +7,7 @@
 #
 
 CFILES = $(shell find ../init -name "*.c")
-CFILES += *.c
+CFILES += $(shell ls *.c)
 CFILES += $(shell find ../bpal/ -name "*.c")
 CFILES += $(shell find ../drivers/ -name "*.c")
 CFILES += $(shell find ../xt/ -name "*.c")
