@@ -111,6 +111,23 @@ ST_STATUS KeBpalGet(KE_BPAL_HANDLE *Result);
  */
 ST_STATUS KeBpalMemEntry(USIZE Idx, KE_MEMMAP_ENTRY *Result);
 
+/*
+ * Obtain the kernel load virtual memory base
+ */
+ALWAYS_INLINE static inline UPTR
+KeBpalLoadBase(VOID)
+{
+    KE_BPAL_HANDLE Handle;
+    ST_STATUS Status;
+
+    Status = KeBpalGet(&Handle);
+    if (Status != STATUS_SUCCESS) {
+        return 0;
+    }
+
+    return Handle.StLoadBase;
+}
+
 /* Backend init routines */
 ST_STATUS KeBpalLimineInit(KE_BPAL_HANDLE *Handle);
 
