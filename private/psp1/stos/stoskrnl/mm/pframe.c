@@ -12,6 +12,7 @@
 #include <ke/bpal.h>
 #include <ke/spinlock.h>
 #include <stdef.h>
+#include <units.h>
 
 #define MEM_SCAN_START 0x00100000
 #define PAGESIZE 4096
@@ -66,6 +67,26 @@ typedef struct {
 } FREE_LIST;
 
 static FREE_LIST FreeList;
+static USIZE MemoryFree = 0;
+
+/*
+ * Print memory units in a human readable format
+ */
+static inline VOID
+PrintMemUnits(const CHAR *Title, USIZE Length)
+{
+    if (Title == NULL) {
+        return;
+    }
+
+    if (Length >= UNIT_GIB) {
+        DTRACE("%s: %d GiB\n", Title, Length / UNIT_GIB);
+    } else if (Length >= UNIT_MIB) {
+        DTRACE("%s: %d MiB\n", Title, Length / UNIT_MIB);
+    } else {
+        DTRACE("%s: %d bytes\n", Title, Length);
+    }
+}
 
 /*
  * Append a memory entry to a free list
@@ -155,7 +176,11 @@ PFrameScan(VOID)
             Vma = PTR_OFFSET(Base, Off);
             FreeListAppend(&FreeList, Vma);
         }
+
+        MemoryFree += Entry.Length;
     }
+
+    PrintMemUnits("memory available", MemoryFree);
 }
 
 UPTR
