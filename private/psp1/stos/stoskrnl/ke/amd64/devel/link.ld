@@ -19,6 +19,7 @@ PHDRS {
 SECTIONS
 {
     . = 0xFFFFFFFF80000000;
+    __KernelStart = .;
 
     .text : {
         *(.text .text.*)
@@ -55,6 +56,7 @@ SECTIONS
         *(.bss .bss.*)
     } :data
 
+    __KernelEnd = .;
     . += CONSTANT(MAXPAGESIZE);
 
     /DISCARD/ : {

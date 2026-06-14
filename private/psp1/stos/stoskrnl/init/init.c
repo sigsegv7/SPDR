@@ -14,6 +14,7 @@
 #include <hal/kpcr.h>
 #include <hal/serial.h>
 #include <mm/pframe.h>
+#include <mm/vmm.h>
 #include <drivers/bootvid/fbio.h>
 
 /* Globals */
@@ -60,4 +61,7 @@ KernelEntry(VOID)
 
     /* Initialize the pageframe manager */
     MmPFrameInit();
+
+    /* Initialize the virtual memory manager */
+    MmVmmInit();
 }
