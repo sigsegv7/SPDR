@@ -11,8 +11,6 @@
 #include <mm/page.h>
 #include <stdef.h>
 
-#include <ex/trace.h>
-
 /*
  * Initialize a pool block
  *
