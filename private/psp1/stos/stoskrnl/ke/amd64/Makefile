@@ -28,6 +28,7 @@ LD =				\
 CFLAGS = 								\
 	$(SYS_CFLAGS)   					\
 	-I$(PROJECT_ROOT)/public/sdk/head/	\
+	-I../../../../spkg/head/		    \
 	-I../../head/						\
 	-I../../head/target/				\
 	-D_KERNEL
