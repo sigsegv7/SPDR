@@ -25,6 +25,7 @@ SYS_CFLAGS =			\
 	-target $(CC_TARGET)\
 	-mcmodel=kernel		\
 	-Wno-attributes		\
+	-Wno-multichar		\
 	-fno-stack-protector\
 	-D_ST_MULTICORE     \
 
