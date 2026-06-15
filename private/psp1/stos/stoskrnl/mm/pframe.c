@@ -184,7 +184,7 @@ PFrameScan(VOID)
 }
 
 UPTR
-MmRequestPage(VOID)
+MmRequestFrame(VOID)
 {
     FREE_LIST_ENTRY *Entry;
     UPTR Base = 0;

@@ -21,6 +21,6 @@ VOID MmPFrameInit(VOID);
  *
  * Returns the physical memory base on success
  */
-UPTR MmRequestPage(VOID);
+UPTR MmRequestFrame(VOID);
 
 #endif  /* !_MM_PFRAME_H_ */
