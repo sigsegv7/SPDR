@@ -8,6 +8,7 @@
 
 #include <machine/idt.h>
 #include <machine/kfence.h>
+#include <machine/frame.h>
 
     .macro SetTrap, Vector, Isr, Ist
         mov $\Vector, %rdi
@@ -15,54 +16,6 @@
         mov $IDT_TRAP_GATE, %rdx
         mov $\Ist, %rcx
         call MdIdtSetEntry
-    .endm
-
-    .macro PushFrame Vector
-        .if \Vector == 10 || \Vector == 11 || \Vector == 12 || \Vector == 13 \
-            || \Vector == 14
-            subq $8, %rsp
-        .endif
-
-        push %r15
-        push %r14
-        push %r13
-        push %r12
-        push %r11
-        push %r10
-        push %r9
-        push %r8
-        push %rbp
-        push %rdi
-        push %rsi
-        push %rdx
-        push %rcx
-        push %rbx
-        push %rax
-        push $\Vector
-    .endm
-
-    .macro PopFrame Vector
-        .if \Vector == 10 || \Vector == 11 || \Vector == 12 || \Vector == 13 \
-            || \Vector == 14
-            addq $8, %rsp
-        .endif
-
-        add $8, %rsp
-        pop %r15
-        pop %r14
-        pop %r13
-        pop %r12
-        pop %r11
-        pop %r10
-        pop %r9
-        pop %r8
-        pop %rbp
-        pop %rdi
-        pop %rsi
-        pop %rdx
-        pop %rcx
-        pop %rbx
-        pop %rax
     .endm
 
     .text
