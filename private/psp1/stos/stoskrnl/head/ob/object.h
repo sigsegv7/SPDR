@@ -57,7 +57,7 @@ typedef struct _OB_DIRECTORY_ENTRY {
  */
 typedef struct {
     USIZE EntryCount;
-    OB_DIRECTORY *First;
+    OB_DIRECTORY_ENTRY *First;
 } OB_DIRECTORY;
 
 #endif  /* !_OB_OBJECT_H_ */
