@@ -10,6 +10,7 @@
 #define _HAL_MMU_H_ 1
 
 #include <machine/vas.h>
+#include <machine/page.h>
 #include <stapi/status.h>
 #include <stdef.h>
 
