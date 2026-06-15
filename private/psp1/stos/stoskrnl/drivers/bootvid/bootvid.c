@@ -8,6 +8,7 @@
 
 #include <drivers/bootvid/fbio.h>
 #include <ke/bpal.h>
+#include <ex/pbi.h>
 #include <stdef.h>
 #include "flanterm.h"
 #include "flanterm_backends/fb.h"
@@ -26,6 +27,109 @@ static BOOTCONS_ATTR DefaultConsAttr = {
     .Foreground = DEFAULT_FG,
     .Background = DEFAULT_BG
 };
+
+/*
+ * Splash screen header
+ *
+ * @Width: Width of splash
+ * @Height: Height of splash
+ */
+typedef PACKED struct {
+    ULONG Width;
+    ULONG Height;
+} SPLASH_HEADER;
+
+/*
+ * Pack RGB bits so it fits the framebuffer format
+ *
+ * @Red: Red value
+ * @Green: Green value
+ * @Blue: Blue value
+ */
+static inline ULONG
+BootVidPackRgb(UCHAR Red, UCHAR Green, UCHAR Blue)
+{
+    return ((ULONG)Red << Framebuffer.RedMaskShift)
+         | ((ULONG)Green << Framebuffer.GreenMaskShift)
+         | ((ULONG)Blue << Framebuffer.BlueMaskShift);
+}
+
+/*
+ * Blit the splash onto the screen
+ *
+ * @Fb: Framebuffer descriptor
+ * @Hdr: Splash header
+ * @FileSize: Splash file size
+ */
+static BOOL
+BlitSplash(KE_BPAL_FRAMEBUFFER *Fb, SPLASH_HEADER *Hdr, USIZE FileSize)
+{
+    volatile ULONG *Row;
+    UCHAR *Pixels, *Base;
+    USIZE StartX, StartY;
+    USIZE SrcX, SrcY;
+    USIZE DrawW, DrawH;
+    USIZE PixelBytes;
+    ULONG Background;
+    USIZE ImgX, ImgY;
+    USIZE Off, Red;
+    UCHAR Green, Blue;
+    UCHAR Alpha;
+
+    if (Hdr->Width == 0 || Hdr->Height == 0) {
+        return false;
+    }
+
+    PixelBytes = (USIZE)Hdr->Width * (USIZE)Hdr->Height * 4;
+    if (FileSize < sizeof(SPLASH_HEADER) + PixelBytes) {
+        return false;
+    }
+
+    if (Fb->Address == NULL || Fb->Pitch == 0) {
+        return false;
+    }
+
+    Pixels = (UCHAR *)Hdr + sizeof(SPLASH_HEADER);
+    Base = Fb->Address;
+
+    DrawW = Hdr->Width;
+    DrawH = Hdr->Height;
+    StartX = 0;
+    StartY = 0;
+    SrcX = 0;
+    SrcY = 0;
+
+    if (DrawW < Fb->Width) {
+        StartX = (Fb->Width - DrawW) / 2;
+    } else if (DrawW > Fb->Width) {
+        SrcX = (DrawW - Fb->Width) / 2;
+        DrawW = Fb->Width;
+    }
+
+    if (DrawH < Fb->Height) {
+        StartY = (Fb->Height - DrawH) / 2;
+    } else if (DrawH > Fb->Height) {
+        SrcY = (DrawH - Fb->Height) / 2;
+        DrawH = Fb->Height;
+    }
+
+    /* Actually blit the splash */
+    for (USIZE Y = 0; Y < DrawH; Y++) {
+        Row = (volatile ULONG *)(Base + ((StartY + Y) * Fb->Pitch));
+        for (USIZE X = 0; X < DrawW; X++) {
+            ImgX = SrcX + X;
+            ImgY = SrcY + Y;
+            Off = (ImgY * Hdr->Width + ImgX) * 4;
+            Red = Pixels[Off + 0];
+            Green = Pixels[Off + 1];
+            Blue = Pixels[Off + 2];
+            Alpha = Pixels[Off + 3];
+            Row[StartX + X] = BootVidPackRgb(Red, Green, Blue);
+        }
+    }
+
+    return true;
+}
 
 ST_STATUS
 BootVidInit(VOID)
@@ -121,7 +225,20 @@ BootVidConsWrite(const CHAR *String, USIZE Length)
 VOID
 BootVidSplash(VOID)
 {
-    BootVidClear(BOOT_BG_RGB);
+    ST_STATUS Status;
+    EX_BPI_FILE File;
+    SPLASH_HEADER *Hdr;
+
+    Status = ExPbiLookup("/boot/splash.rgba", &File);
+    if (Status != STATUS_SUCCESS) {
+        BootVidClear(BOOT_BG_RGB);
+        return;
+    }
+
+    Hdr = File.Data;
+    if (!BlitSplash(&Framebuffer, Hdr, File.Size)) {
+        BootVidClear(BOOT_BG_RGB);
+    }
 }
 
 BOOL
