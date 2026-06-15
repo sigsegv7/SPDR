@@ -50,5 +50,6 @@ MmVadListAppend(MM_VAD_LIST *List, VOID *Page)
         List->Last = Vad;
     }
 
+    ++List->VadCount;
     return STATUS_SUCCESS;
 }
