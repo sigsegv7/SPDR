@@ -8,6 +8,7 @@
 
 #include <drivers/bootvid/fbio.h>
 #include <hal/prim.h>
+#include <hal/knot.h>
 #include <ex/trace.h>
 #include <stdef.h>
 
@@ -34,7 +35,10 @@ KiKnot(const CHAR *Fmt, ...)
 
     TRACE("---- Ah!~ fuck, I've been knotted~ @.@ ----\n");
     TRACE(KnotMessage);
-    TRACE("knot: %s", KnotBuf);
+    TRACE("knot: %s\n", KnotBuf);
+
+    TRACE("-- Begin dump of processor snapshot --\n");
+    HalKnotDumpFrame();
 
     for (;;) {
         MdCpuSuspend();

@@ -6,12 +6,15 @@
  * Author:      Chloe M.
  */
 
+#include <machine/frame.h>
+
     .text
     .extern KiKnot
     .globl KeKnot
 KeKnot:
-    cli         /* Don't want to be interrupted */
-    cld         /* Just in case */
+    cli             /* Don't want to be interrupted */
+    cld             /* Just in case */
+    mov %rax, (RaxStore)
 
     /*
      * When fucking and knotting the kernel, it is critical to ensure
@@ -22,6 +25,17 @@ KeKnot:
      xchg %rax, MpLock
      or %rax, %rax
      jnz .LockOut
+
+     /* Make a snapshot of the processor state */
+     lea CoreSnapshotTop(%rip), %rsp
+     mov RaxStore, %rax
+
+     push $0
+     push $0
+     pushfq
+     push $0
+     push $0
+     PushFrame 0x00
 
      /*
       * During knot conditions, we cannot trust the stack as it may be
@@ -36,6 +50,33 @@ KeKnot:
 
     .section .data
 MpLock: .quad 0
+RaxStore: .quad 0
+
+    .section .data
+    .globl gCoreSnapshot
+gCoreSnapshot:
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+    .quad 0
+CoreSnapshotTop:
 
     .section .bss
 KnotStack:
