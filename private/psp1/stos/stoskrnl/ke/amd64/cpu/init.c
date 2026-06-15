@@ -9,6 +9,8 @@
 #include <hal/kpcr.h>
 #include <hal/intr.h>
 #include <ex/trace.h>
+#include <ex/pool.h>
+#include <ke/knot.h>
 #include <machine/cpuid.h>
 #include <machine/idt.h>
 #include <machine/msr.h>
@@ -81,6 +83,7 @@ HalKpcrP1Init(KPCR *Kpcr)
 VOID
 HalKpcrP2Init(KPCR *Kpcr)
 {
+    ST_STATUS Status;
     MCB *Mcb;
 
     if (Kpcr == NULL) {
@@ -88,7 +91,15 @@ HalKpcrP2Init(KPCR *Kpcr)
     }
 
     Mcb = &Kpcr->CoreData;
+
+    /* Identify the current processor */
     CpuIdentify(Mcb);
+
+    /* Initialize the per-processor pool */
+    Status = ExInitPool(&Kpcr->Pool);
+    if (Status != STATUS_SUCCESS) {
+        KeKnot("Failed to initialize pool for cpu %d\n", Kpcr->CoreId);
+    }
 }
 
 KPCR *

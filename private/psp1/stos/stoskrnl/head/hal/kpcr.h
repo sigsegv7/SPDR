@@ -10,6 +10,7 @@
 #define _HAL_KPCR_H_ 1
 
 #include <machine/mcb.h>
+#include <ex/pool.h>
 #include <stdef.h>
 
 /*
@@ -19,11 +20,13 @@
  * @CoreId:     Processor core ID
  * @CoreData:   Machine core block
  * @Irql:       Current interrupt request level
+ * @Pool:       Per-processor pool
  */
 typedef struct {
     UCHAR CoreId;
     MCB CoreData;
     UCHAR Irql;
+    EX_POOL Pool;
 } KPCR;
 
 /*

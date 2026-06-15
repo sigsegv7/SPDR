@@ -56,12 +56,12 @@ KernelEntry(VOID)
     /* Print version information */
     Version();
 
-    /* Phase 2 init of bootstrap core */
-    HalKpcrP2Init(&BootstrapCore);
-
     /* Initialize the pageframe manager */
     MmPFrameInit();
 
     /* Initialize the virtual memory manager */
     MmVmmInit();
+
+    /* Phase 2 init of bootstrap core */
+    HalKpcrP2Init(&BootstrapCore);
 }
