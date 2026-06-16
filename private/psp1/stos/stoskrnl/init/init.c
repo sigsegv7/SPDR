@@ -8,12 +8,14 @@
 
 #include <stdef.h>
 #include <ke/bpal.h>
+#include <ke/knot.h>
 #include <ex/trace.h>
 #include <ex/cmdline.h>
 #include <ex/pbi.h>
 #include <ob/object.h>
 #include <hal/kpcr.h>
 #include <hal/serial.h>
+#include <ps/ps.h>
 #include <mm/pframe.h>
 #include <mm/vmm.h>
 #include <drivers/bootvid/fbio.h>
@@ -26,6 +28,25 @@ Version(VOID)
 {
     TRACE(":::: SPDR DR // Slut Technology ::::\n");
     TRACE("::::         v0.0.1             ::::\n\n");
+}
+
+static void
+CreateRootProc(VOID)
+{
+    EPROCESS *RootProc;
+    ST_STATUS Status;
+
+    Status = PsCreateProcess(
+        "KernelRoot",
+        0,
+        &RootProc
+    );
+
+    if (Status != STATUS_SUCCESS) {
+        KeKnot("Unable to create root process\n");
+    }
+
+    BootstrapCore.CurrentProc = RootProc;
 }
 
 VOID
@@ -68,4 +89,7 @@ KernelEntry(VOID)
 
     /* Initialize the object manager */
     ObManagerInit();
+
+    /* Create the root process */
+    CreateRootProc();
 }

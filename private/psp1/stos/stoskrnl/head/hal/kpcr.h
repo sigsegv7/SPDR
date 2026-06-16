@@ -11,22 +11,25 @@
 
 #include <machine/mcb.h>
 #include <ex/pool.h>
+#include <ps/ps.h>
 #include <stdef.h>
 
 /*
  * Represents a kernel processor control region describing
  * machine independent details about a processor core.
  *
- * @CoreId:     Processor core ID
- * @CoreData:   Machine core block
- * @Irql:       Current interrupt request level
- * @Pool:       Per-processor pool
+ * @CoreId:         Processor core ID
+ * @CoreData:       Machine core block
+ * @Irql:           Current interrupt request level
+ * @Pool:           Per-processor pool
+ * @CurrentProc:    Currently running process
  */
 typedef struct {
     UCHAR CoreId;
     MCB CoreData;
     UCHAR Irql;
     EX_POOL Pool;
+    EPROCESS *CurrentProc;
 } KPCR;
 
 /*
