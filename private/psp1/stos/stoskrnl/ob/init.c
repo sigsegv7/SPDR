@@ -25,5 +25,5 @@ ObManagerInit(void)
         KeKnot("failed to initialize manager");
     }
 
-    DTRACE("Root mounted at '/'\n");
+    DTRACE("root mounted at '/'\n");
 }
