@@ -60,10 +60,12 @@ typedef struct _OB_DIRECTORY_ENTRY {
  *
  * @EntryCount: Number of entries in this
  * @First:      First directory entry
+ * @Last:       Last directory entry
  */
 typedef struct {
     USIZE EntryCount;
     OB_DIRECTORY_ENTRY *First;
+    OB_DIRECTORY_ENTRY *Last;
 } OB_DIRECTORY;
 
 /*
@@ -97,6 +99,23 @@ ST_STATUS ObObjectLock(
  * @Result: Result is written here
  */
 ST_STATUS ObDirectoryNew(const CHAR *Name, ST_OBJECT **Result);
+
+/*
+ * Append an object to an object directory
+ *
+ * @Directory: Directory object to append to
+ * @Object:    Object to append
+ */
+ST_STATUS ObDirectoryAppend(ST_OBJECT *Directory, ST_OBJECT *Object);
+
+/*
+ * Look up a directory entry by name
+ *
+ * @Directory: Parent directory
+ * @Name:      Name of object to lookup
+ * @Result:    Result is written here
+ */
+ST_STATUS ObDirectoryLookup(ST_OBJECT *Directory, const CHAR *Name, ST_OBJECT **Result);
 
 /*
  * Initialize the object manager
