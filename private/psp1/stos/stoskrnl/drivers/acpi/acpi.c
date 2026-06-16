@@ -34,6 +34,23 @@ AcpiPrintVendor(VOID)
     DTRACE("detected acpi %d.0 by %06s\n", Revision, Rsdp->Oemid);
 }
 
+static VOID
+RsdpVerify(VOID)
+{
+    UCHAR Checksum = 0;
+    USIZE Idx;
+
+    for (Idx = 0; Idx < Rsdp->Length; ++Idx) {
+        Checksum += ((UCHAR *)Rsdp)[Idx];
+    }
+
+    if ((Checksum & 0xFF) != 0) {
+        KeKnot("Got bad checksum %x for ACPI RSDP\n", Checksum);
+    }
+
+    DTRACE("checksum ok\n");
+}
+
 VOID
 AcpiInit(VOID)
 {
@@ -47,4 +64,5 @@ AcpiInit(VOID)
 
     Rsdp = BpalHandle.RsdpBase;
     AcpiPrintVendor();
+    RsdpVerify();
 }
