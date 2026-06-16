@@ -19,6 +19,7 @@
 #include <mm/pframe.h>
 #include <mm/vmm.h>
 #include <drivers/bootvid/fbio.h>
+#include <drivers/acpi/acpi.h>
 
 /* Globals */
 static KPCR BootstrapCore;
@@ -89,6 +90,9 @@ KernelEntry(VOID)
 
     /* Initialize the object manager */
     ObManagerInit();
+
+    /* Initialize ACPI */
+    AcpiInit();
 
     /* Create the root process */
     CreateRootProc();
