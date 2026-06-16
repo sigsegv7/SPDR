@@ -9,6 +9,9 @@
 #ifndef _OB_OBJECT_H_
 #define _OB_OBJECT_H_ 1
 
+#include <se/token.h>
+#include <stdef.h>
+
 /* Max object name size in bytes (inclusive of '\0') */
 #define OB_NAMESZ 32
 
@@ -30,12 +33,14 @@ typedef enum {
  * @Name:       Name of object
  * @RefCnt:     Object reference count
  * @Data:       Object backing data
+ * @SecToken:   Security token
  */
 typedef struct {
    OB_TYPE Type;
    CHAR Name[OB_NAMESZ];
    ULONG RefCnt;
    VOID *Data;
+   SECURITY_DESCRIPTOR SecToken;
 } ST_OBJECT;
 
 /*
