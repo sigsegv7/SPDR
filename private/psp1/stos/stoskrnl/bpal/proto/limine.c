@@ -47,6 +47,13 @@ static volatile struct limine_memmap_request MapReq = {
     .revision = 0
 };
 
+/* RSDP request */
+static struct limine_rsdp_response *RsdpResp = NULL;
+static volatile struct limine_rsdp_request RsdpReq = {
+    .id = LIMINE_RSDP_REQUEST,
+    .revision = 0
+};
+
 static ST_STATUS
 LimineModuleLookup(CHAR *Path, KE_BPAL_MODULE *Result)
 {
@@ -128,11 +135,13 @@ KeBpalLimineInit(KE_BPAL_HANDLE *Handle)
     CmdLineResp = CmdLineReq.response;
     ModResp = ModReq.response;
     MapResp = MapReq.response;
+    RsdpResp = RsdpReq.response;
 
     BpalInitFramebuffer(Handle);
     Handle->StLoadBase = HHDMResp->offset;
     Handle->CommandLine = CmdLineResp->cmdline;
     Handle->ModuleLookup = LimineModuleLookup;
     Handle->MemEntryIdx = LimineMemEntryIdx;
+    Handle->RsdpBase = RsdpResp->address;
     return STATUS_SUCCESS;
 }

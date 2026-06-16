@@ -79,6 +79,7 @@ typedef struct {
  *
  * @CommandLine: Kernel command line
  * @StLoadBase: Slut technology kernel load base
+ * @RsdpBase:    ACPI RSDP base
  * @Framebuffer: Framebuffer descriptor
  * @ModuleLookup: Callback to lookup boot module
  * @MemEntryIdx:  Callback to obtain entry by index
@@ -86,6 +87,7 @@ typedef struct {
 typedef struct {
     const CHAR *CommandLine;
     UPTR StLoadBase;
+    VOID *RsdpBase;
     KE_BPAL_FRAMEBUFFER Framebuffer;
     ST_STATUS(*ModuleLookup)(CHAR *Path, KE_BPAL_MODULE *Result);
     ST_STATUS(*MemEntryIdx)(USIZE Idx, KE_MEMMAP_ENTRY *Result);
