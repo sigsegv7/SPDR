@@ -42,6 +42,7 @@ ST_STATUS
 ObObjectCreate(const CHAR *Name, OB_TYPE Type, VOID *Data, ST_OBJECT **Result)
 {
     ST_OBJECT *Object;
+    ST_STATUS Status;
 
     if (Name == NULL || Result == NULL) {
         return STATUS_INVALID_PARAM;
@@ -61,6 +62,13 @@ ObObjectCreate(const CHAR *Name, OB_TYPE Type, VOID *Data, ST_OBJECT **Result)
     Object->RefCnt = 1;
     Object->Type = Type;
     Object->Data = Data;
+
+    /* TODO: Free on failure here */
+    Status = ObjectCopyName(Name, Object);
+    if (Status != STATUS_SUCCESS) {
+        return Status;
+    }
+
     *Result = Object;
     return STATUS_SUCCESS;
 }
