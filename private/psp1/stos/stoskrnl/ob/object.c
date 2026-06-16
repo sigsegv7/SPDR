@@ -79,3 +79,32 @@ ObObjectLock(ST_OBJECT *Object, TOKEN_TYPE SecType, SECURITY_DESCRIPTOR *SecDesc
     Object->SecToken = *SecDesc;
     return STATUS_SUCCESS;
 }
+
+ST_STATUS
+ObDirectoryNew(const CHAR *Name, ST_OBJECT **Result)
+{
+    ST_STATUS Status;
+    OB_DIRECTORY *Directory;
+
+    if (Name == NULL || Result == NULL) {
+        return STATUS_INVALID_PARAM;
+    }
+
+    Directory = ExAllocatePoolWithTag(
+        NON_PAGED_POOL,
+        sizeof(*Directory),
+        OBJECT_POOL_TAG
+    );
+
+    if (Directory == NULL) {
+        return STATUS_NO_MEMORY;
+    }
+
+    RtlMemSet(Directory, 0, sizeof(*Directory));
+    Status = ObObjectCreate(Name, OB_TYPE_DIR, Directory, Result);
+    if (Status != STATUS_SUCCESS) {
+        return Status;
+    }
+
+    return STATUS_SUCCESS;
+}

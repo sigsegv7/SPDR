@@ -11,6 +11,7 @@
 #include <ex/trace.h>
 #include <ex/cmdline.h>
 #include <ex/pbi.h>
+#include <ob/object.h>
 #include <hal/kpcr.h>
 #include <hal/serial.h>
 #include <mm/pframe.h>
@@ -64,4 +65,7 @@ KernelEntry(VOID)
 
     /* Phase 2 init of bootstrap core */
     HalKpcrP2Init(&BootstrapCore);
+
+    /* Initialize the object manager */
+    ObManagerInit();
 }

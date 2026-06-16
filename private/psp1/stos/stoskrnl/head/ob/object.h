@@ -90,4 +90,17 @@ ST_STATUS ObObjectLock(
     SECURITY_DESCRIPTOR *SecDesc
 );
 
+/*
+ * Create a new directory object
+ *
+ * @Name: Name of directory object
+ * @Result: Result is written here
+ */
+ST_STATUS ObDirectoryNew(const CHAR *Name, ST_OBJECT **Result);
+
+/*
+ * Initialize the object manager
+ */
+VOID ObManagerInit(void);
+
 #endif  /* !_OB_OBJECT_H_ */
