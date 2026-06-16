@@ -31,7 +31,7 @@ AcpiPrintVendor(VOID)
         ++Revision;
     }
 
-    DTRACE("detected acpi %d.0 by %06s\n", Revision, Rsdp->Oemid);
+    DTRACE("detected acpi %d.0 by %.6s\n", Revision, Rsdp->Oemid);
 }
 
 static VOID
