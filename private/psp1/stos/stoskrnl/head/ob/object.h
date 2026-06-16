@@ -9,6 +9,7 @@
 #ifndef _OB_OBJECT_H_
 #define _OB_OBJECT_H_ 1
 
+#include <stapi/status.h>
 #include <se/token.h>
 #include <stdef.h>
 
@@ -64,5 +65,29 @@ typedef struct {
     USIZE EntryCount;
     OB_DIRECTORY_ENTRY *First;
 } OB_DIRECTORY;
+
+/*
+ * Create a new system object
+ *
+ * @Name:   Name of object
+ * @Type:   Type of object
+ * @Result: Object result is written here
+ */
+ST_STATUS ObObjectCreate(
+    const CHAR *Name, OB_TYPE Type,
+    VOID *Data, ST_OBJECT **Result
+);
+
+/*
+ * Lock an object with a security descriptor
+ *
+ * @Object:     Object to lock
+ * @SecType:    Security descriptor type [must match, added security]
+ * @SecDesc:    Security descriptor to lock with
+ */
+ST_STATUS ObObjectLock(
+    ST_OBJECT *Object, TOKEN_TYPE SecType,
+    SECURITY_DESCRIPTOR *SecDesc
+);
 
 #endif  /* !_OB_OBJECT_H_ */
