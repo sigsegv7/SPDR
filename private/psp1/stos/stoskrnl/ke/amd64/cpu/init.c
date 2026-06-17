@@ -12,6 +12,7 @@
 #include <ex/pool.h>
 #include <ke/knot.h>
 #include <machine/cpuid.h>
+#include <machine/lapic.h>
 #include <machine/idt.h>
 #include <machine/msr.h>
 
@@ -100,6 +101,8 @@ HalKpcrP2Init(KPCR *Kpcr)
     if (Status != STATUS_SUCCESS) {
         KeKnot("Failed to initialize pool for cpu %d\n", Kpcr->CoreId);
     }
+
+    MdLapicInit(Kpcr);
 }
 
 KPCR *
