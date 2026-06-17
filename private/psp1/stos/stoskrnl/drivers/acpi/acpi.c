@@ -16,6 +16,8 @@
     TRACE("[ ACPI ]: " Fmt, ##__VA_ARGS__)
 
 static ACPI_RSDP *Rsdp;
+static ACPI_ROOT_SDT *RootSdt;
+static USIZE RootSdtEntries;
 
 static VOID
 AcpiPrintVendor(VOID)
@@ -65,4 +67,15 @@ AcpiInit(VOID)
     Rsdp = BpalHandle.RsdpBase;
     AcpiPrintVendor();
     RsdpVerify();
+
+    /* Select the correct root sdt */
+    if (Rsdp->Revision < 2) {
+        DTRACE("using rsdt as root sdt\n");
+        RootSdt = PMA_TO_VMA((UPTR)Rsdp->RsdtAddr);
+        RootSdtEntries = (RootSdt->Header.Length - sizeof(RootSdt->Header)) / 4;
+    } else {
+        DTRACE("using xsdt as root sdt\n");
+        RootSdt = PMA_TO_VMA((UPTR)Rsdp->XsdtAddr);
+        RootSdtEntries = (RootSdt->Header.Length - sizeof(RootSdt->Header)) / 8;
+    }
 }
