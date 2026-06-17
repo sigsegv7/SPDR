@@ -85,14 +85,14 @@ KernelEntry(VOID)
     /* Initialize the virtual memory manager */
     MmVmmInit();
 
+    /* Initialize ACPI */
+    AcpiInit();
+
     /* Phase 2 init of bootstrap core */
     HalKpcrP2Init(&BootstrapCore);
 
     /* Initialize the object manager */
     ObManagerInit();
-
-    /* Initialize ACPI */
-    AcpiInit();
 
     /* Create the root process */
     CreateRootProc();
