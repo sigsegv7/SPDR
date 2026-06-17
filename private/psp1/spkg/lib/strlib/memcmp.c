@@ -18,10 +18,10 @@
  * Returns the differences
  */
 LONG
-RtlMemCmp(VOID *Buffer1, VOID *Buffer2, USIZE Length)
+RtlMemCmp(const VOID *Buffer1, const VOID *Buffer2, USIZE Length)
 {
-    UCHAR *Ptr1 = Buffer1;
-    UCHAR *Ptr2 = Buffer2;
+    const UCHAR *Ptr1 = Buffer1;
+    const UCHAR *Ptr2 = Buffer2;
 
     if (Buffer1 == NULL || Buffer2 == NULL) {
         return 0;

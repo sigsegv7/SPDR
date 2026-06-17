@@ -40,7 +40,7 @@ VOID *RtlMemSet(VOID *Buffer, LONG SetValue, USIZE Length);
  *
  * Returns the differences
  */
-LONG RtlMemCmp(VOID *Buffer1, VOID *Buffer2, USIZE Length);
+LONG RtlMemCmp(const VOID *Buffer1, const VOID *Buffer2, USIZE Length);
 
 /*
  * Copy n bytes of one buffer to another
