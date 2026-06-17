@@ -16,4 +16,14 @@
  */
 VOID AcpiInit(VOID);
 
+/*
+ * Query an ACPI structure
+ *
+ * @Signature: Signature to query for
+ *
+ * Returns the virtual structure base on success, otherwise
+ * NULL on failure.
+ */
+VOID *AcpiQuery(const CHAR *Signature);
+
 #endif  /* !_ACPI_ACPI_H_ */

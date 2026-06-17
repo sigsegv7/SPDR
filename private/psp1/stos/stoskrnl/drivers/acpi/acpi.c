@@ -9,8 +9,10 @@
 #include <drivers/acpi/acpi.h>
 #include <drivers/acpi/tables.h>
 #include <ex/trace.h>
+#include <mm/vmm.h>
 #include <ke/bpal.h>
 #include <ke/knot.h>
+#include <string.h>
 
 #define DTRACE(Fmt, ...) \
     TRACE("[ ACPI ]: " Fmt, ##__VA_ARGS__)
@@ -51,6 +53,35 @@ RsdpVerify(VOID)
     }
 
     DTRACE("checksum ok\n");
+}
+
+VOID *
+AcpiQuery(const CHAR *Signature)
+{
+    BOOL IsMatch;
+    ACPI_HEADER *Header;
+    UPTR Pma;
+    USIZE Idx;
+
+    if (Signature == NULL) {
+        return NULL;
+    }
+
+    for (Idx = 0; Idx < RootSdtEntries; ++Idx) {
+        Pma = (UPTR)RootSdt->Tables[Idx];
+        Header = (ACPI_HEADER *)PMA_TO_VMA(Pma);
+        IsMatch = !RtlMemCmp(
+            Header->Signature,
+            Signature,
+            sizeof(Header->Signature)
+        );
+
+        if (IsMatch) {
+            return (VOID *)Header;
+        }
+    }
+
+    return NULL;
 }
 
 VOID
