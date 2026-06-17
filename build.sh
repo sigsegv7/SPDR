@@ -85,6 +85,10 @@ build() {
     pushd private/$SERVICE_PACK/boot/; \
         $MAKE
     popd
+
+    pushd private/$SERVICE_PACK/crt/;  \
+        $MAKE
+    popd
 }
 
 mkdir -p artifacts/
