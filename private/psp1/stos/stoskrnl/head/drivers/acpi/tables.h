@@ -49,12 +49,12 @@ typedef struct PACKED {
  * header
  */
 typedef struct PACKED {
-    ACPI_HEADER *Header;
+    ACPI_HEADER Header;
     ULONG Tables[];
 } ACPI_ROOT_SDT;
 
 typedef struct PACKED {
-    ACPI_HEADER *Header;
+    ACPI_HEADER Header;
     ULONG LapicAddr;
     ULONG Flags;
 } ACPI_MADT;
@@ -65,7 +65,7 @@ typedef struct PACKED {
 } ACPI_APIC_HEADER;
 
 typedef struct PACKED {
-    ACPI_APIC_HEADER *Header;
+    ACPI_APIC_HEADER Header;
     UCHAR ProcessorId;
     UCHAR ApicId;
     ULONG Flags;
