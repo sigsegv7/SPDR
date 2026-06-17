@@ -89,8 +89,14 @@ build() {
     pushd private/$SERVICE_PACK/crt/;  \
         $MAKE
     popd
+
+    pushd private/$SERVICE_PACK/ssm/;  \
+        $MAKE
+    popd
 }
 
 mkdir -p artifacts/
+mkdir -p $BASE_DIR/system64
+
 build_verify
 build
