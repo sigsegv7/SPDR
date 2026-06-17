@@ -69,6 +69,8 @@ build_verify() {
 # Begin the build process
 #
 build() {
+    mkdir -p $BASE_DIR/system64
+
     # Build the host utilties
     pushd private/$SERVICE_PACK/host; \
         $MAKE
@@ -96,7 +98,6 @@ build() {
 }
 
 mkdir -p artifacts/
-mkdir -p $BASE_DIR/system64
 
 build_verify
 build
