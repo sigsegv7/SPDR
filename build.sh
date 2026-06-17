@@ -38,9 +38,16 @@ check_deps() {
 # Verify the build environment
 #
 build_verify() {
+    if [ -z "${SPDR_ENV_EXPORTED}" ]
+    then
+        echo "fatal: Please run '. devel/build.env'"
+        exit 1
+    fi
+
     if [ -z "${SERVICE_PACK}" ]
     then
         echo "fatal: SERVICE_PACK not defined"
+        echo "fatal: Please run '. devel/build.env'"
         exit 1
     fi
 

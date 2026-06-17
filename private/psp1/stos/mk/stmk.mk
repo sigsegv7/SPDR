@@ -4,7 +4,6 @@
 #
 
 CC_PREFIX =
-ARCH_TARGET = amd64
 
 ifeq ($(ARCH_TARGET), amd64)
 	CC_TARGET = x86_64-unknown-elf

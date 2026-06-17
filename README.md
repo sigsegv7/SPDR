@@ -8,6 +8,6 @@ NOM NOM !!!! This kitty will protect your wittle den, don't worry critter!
 ## Build instructions
 
 ```sh
-export SERVICE_PACK=<NAME>
+. devel/build.env
 ./build.sh
 ```
