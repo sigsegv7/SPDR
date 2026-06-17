@@ -31,8 +31,10 @@ AllocatePid(VOID)
 ST_STATUS
 PsCreateProcess(const CHAR *Name, USHORT Flags, EPROCESS **Result)
 {
+    SECURITY_KEY SecKey;
     EPROCESS *Process;
     USIZE NameLen;
+    ST_STATUS Status;
 
     if (Name == NULL) {
         return STATUS_INVALID_PARAM;
@@ -41,6 +43,11 @@ PsCreateProcess(const CHAR *Name, USHORT Flags, EPROCESS **Result)
     NameLen = RtlStrLen(Name);
     if (NameLen >= PROCESS_NAMESZ - 1) {
         return STATUS_NAME_TOO_LONG;
+    }
+
+    Status = SeSetKeyPolicy(&SecKey, DEFAULT_SEC_POLICY);
+    if (Status != STATUS_SUCCESS) {
+        return Status;
     }
 
     Process = ExAllocatePoolWithTag(
@@ -55,7 +62,9 @@ PsCreateProcess(const CHAR *Name, USHORT Flags, EPROCESS **Result)
 
     RtlMemSet(Process, 0, sizeof(*Process));
     RtlMemCpy(Process->Name, Name, NameLen);
+
     Process->ProcessId = AllocatePid();
+    Process->SecKey = SecKey;
 
     *Result = Process;
     return STATUS_SUCCESS;

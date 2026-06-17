@@ -10,6 +10,7 @@
 #define _PS_PS_H_ 1
 
 #include <stapi/status.h>
+#include <se/token.h>
 #include <stdef.h>
 
 /* Maximum length of process name */
@@ -18,15 +19,20 @@
 /* For allocations */
 #define PS_POOL_TAG 'PS'
 
+/* Default per-process policy */
+#define DEFAULT_SEC_POLICY TOKEN_MAC
+
 /*
  * Represents a process
  *
  * @Name: Process name
  * @ProcessId: ID of process
+ * @SecKey:    Security key associated with process
  */
 typedef struct {
     CHAR Name[PROCESS_NAMESZ];
     UQUAD ProcessId;
+    SECURITY_KEY SecKey;
 } EPROCESS;
 
 /*
