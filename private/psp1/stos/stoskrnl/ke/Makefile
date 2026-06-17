@@ -16,6 +16,7 @@ CFILES += $(shell find ../lib/ -name "*.c")
 CFILES += $(shell find ../mm/ -name "*.c")
 CFILES += $(shell find ../ob/ -name "*.c")
 CFILES += $(shell find ../ps/ -name "*.c")
+CFILES += $(shell find ../se/ -name "*.c")
 OFILES = $(CFILES:.c=.o)
 DFILES = $(CFILES:.c=.d)
 

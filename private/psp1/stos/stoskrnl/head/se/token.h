@@ -9,6 +9,7 @@
 #ifndef _SE_TOKEN_H_
 #define _SE_TOKEN_H_ 1
 
+#include <stapi/status.h>
 #include <stdef.h>
 
 /* SECURITY_DESCRIPTOR.AccessLimit values */
@@ -42,5 +43,26 @@ typedef struct {
     USHORT AccessCount;
     VOID *Data;
 } SECURITY_DESCRIPTOR;
+
+/*
+ * Represents a security key that a process holds for checking
+ * its access rights against a resource.
+ *
+ * @Type:   Security policy type
+ * @Rights: Security rights
+ */
+typedef struct {
+    TOKEN_TYPE Type;
+    UQUAD Rights;
+} SECURITY_KEY;
+
+/*
+ * Set a security key policy, this should be used instead of
+ * fiddling with the bits directly.
+ *
+ * @Key:    Security key to set policy for
+ * @Type:   Security policy type
+ */
+ST_STATUS SeSetKeyPolicy(SECURITY_KEY *Key, TOKEN_TYPE Type);
 
 #endif  /* !_SE_TOKEN_H_ */
