@@ -22,7 +22,7 @@ ObManagerInit(void)
 
     Status = ObDirectoryNew("/", &RootDirectory);
     if (Status != STATUS_SUCCESS) {
-        KeKnot("failed to initialize manager");
+        KeKnot("failed to initialize object manager");
     }
 
     DTRACE("root mounted at '/'\n");
