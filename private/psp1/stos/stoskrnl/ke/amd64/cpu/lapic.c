@@ -7,10 +7,12 @@
  */
 
 #include <machine/lapic.h>
+#include <machine/lapicreg.h>
 #include <machine/msr.h>
 #include <machine/cpuid.h>
 #include <drivers/acpi/acpi.h>
 #include <drivers/acpi/tables.h>
+#include <hal/mmio.h>
 #include <mm/vmm.h>
 #include <ex/trace.h>
 #include <ke/knot.h>
@@ -48,6 +50,78 @@ LapicGetBase(VOID)
     return PMA_TO_VMA((UQUAD)Madt->LapicAddr);
 }
 
+/*
+ * Read a value from a Local APIC register
+ *
+ * @Mcb:        Machine core block of current processor
+ * @Register:   Register to read
+ */
+static UQUAD
+LapicRead(MCB *Mcb, USHORT Register)
+{
+    ULONG *RegBase;
+
+    if (Mcb == NULL) {
+        return 0;
+    }
+
+    RegBase = PTR_OFFSET(Mcb->LapicBase, Register);
+    return MMIORead32(RegBase);
+}
+
+/*
+ * Write a value to a Local APIC register
+ *
+ * @Mcb:        Machine core block
+ * @Register:   Register to read
+ * @Value:      Value to write
+ */
+static VOID
+LapicWrite(MCB *Mcb, USHORT Register, UQUAD Value)
+{
+    ULONG *RegBase;
+
+    if (Mcb == NULL) {
+        return;
+    }
+
+    RegBase = PTR_OFFSET(Mcb->LapicBase, Register);
+    return MMIOWrite32(RegBase, (ULONG)Value);
+}
+
+/*
+ * Enable the Local APIC unit
+ */
+static VOID
+LapicEnable(MCB *Mcb)
+{
+    UQUAD ApicBase;
+    ULONG Svr, VersionReg;
+    UCHAR Version;
+    const CHAR *ApicType = "integrated apic";
+    const CHAR *ApicMode = "xapic";
+
+    /* Hardware enable the Local APIC */
+    ApicBase = MdRdmsr(IA32_APIC_BASE_MSR);
+    ApicBase |= LAPIC_HW_ENABLE;
+    MdWrmsr(IA32_APIC_BASE_MSR, ApicBase);
+
+    /* Software enable the Local APIC */
+    Svr = LapicRead(Mcb, LAPIC_SVR);
+    Svr |= LAPIC_SW_ENABLE;
+    LapicWrite(Mcb, LAPIC_SVR, Svr);
+
+    /* Obtain the version */
+    VersionReg = LapicRead(Mcb, LAPIC_VERSION);
+    Version = VersionReg & 0xFF;
+
+    if (Version == 0) {
+        ApicType = "discrete 82489DX";
+    }
+
+    DTRACE("%s enabled in %s mode\n", ApicType, ApicMode);
+}
+
 VOID
 MdLapicInit(KPCR *Kpcr)
 {
@@ -66,7 +140,11 @@ MdLapicInit(KPCR *Kpcr)
         KeKnot("Processor does not include Local APIC unit\n");
     }
 
+    /* Obtain the Local APIC MMIO base */
     Mcb = &Kpcr->CoreData;
     Mcb->LapicBase = LapicGetBase();
     DTRACE("mmio space available @ %p\n", Mcb->LapicBase);
+
+    /* Enable the Local APIC unit */
+    LapicEnable(Mcb);
 }
