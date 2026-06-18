@@ -27,12 +27,12 @@ MdHpetInit(VOID)
         KeKnot("could not detect HPET\n");
     }
 
+    HpetGas = &Hpet->Gas;
+
     /* Print some informational logs */
     DTRACE("pci vendor : 0x%X\n", Hpet->PciVendorId);
     DTRACE("comparator count : %d\n", Hpet->ComparatorCount);
     DTRACE("revision : %d\n", Hpet->HardwareRevId);
-    DTRACE("minimum tick : %x\n", Hpet->Gas.AddressSpaceId);
+    DTRACE("mmio available @ %p\n", ACPI_GAS_ADDRESS(HpetGas));
 
-    HpetGas = &Hpet->Gas;
-    DTRACE("hpet register width : %d bits\n", HpetGas->RegisterBitWidth);
 }
