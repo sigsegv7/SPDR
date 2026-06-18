@@ -35,6 +35,20 @@ LapicIsPresent(VOID)
 }
 
 /*
+ * Returns true if the Local APIC unit is x2APIC
+ * capable
+ */
+static inline BOOL
+LapicHasX2Apic(VOID)
+{
+    ULONG Edx, Unused;
+
+
+    CPUID(0x01, Unused, Unused, Unused, Edx);
+    return ISSET(Edx, BIT(9)) != 0;
+}
+
+/*
  * Obtain the base address of the Local APIC unit
  */
 static VOID *
@@ -60,13 +74,21 @@ static UQUAD
 LapicRead(MCB *Mcb, USHORT Register)
 {
     ULONG *RegBase;
+    UQUAD Value;
 
     if (Mcb == NULL) {
         return 0;
     }
 
-    RegBase = PTR_OFFSET(Mcb->LapicBase, Register);
-    return MMIORead32(RegBase);
+    if (Mcb->HasX2Apic) {
+        Register >>= 4;
+        Value = MdRdmsr(x2APIC_MSR_BASE + Register);
+    } else {
+        RegBase = PTR_OFFSET(Mcb->LapicBase, Register);
+        Value = MMIORead32(RegBase);
+    }
+
+    return Value;
 }
 
 /*
@@ -85,8 +107,13 @@ LapicWrite(MCB *Mcb, USHORT Register, UQUAD Value)
         return;
     }
 
-    RegBase = PTR_OFFSET(Mcb->LapicBase, Register);
-    return MMIOWrite32(RegBase, (ULONG)Value);
+    if (Mcb->HasX2Apic) {
+        Register >>= 4;
+        MdWrmsr(x2APIC_MSR_BASE + Register, Value);
+    } else {
+        RegBase = PTR_OFFSET(Mcb->LapicBase, Register);
+        MMIOWrite32(RegBase, (ULONG)Value);
+    }
 }
 
 /*
@@ -101,9 +128,15 @@ LapicEnable(MCB *Mcb)
     const CHAR *ApicType = "integrated apic";
     const CHAR *ApicMode = "xapic";
 
+    Mcb->HasX2Apic = LapicHasX2Apic();
+    if (Mcb->HasX2Apic) {
+        ApicMode = "x2apic";
+    }
+
     /* Hardware enable the Local APIC */
     ApicBase = MdRdmsr(IA32_APIC_BASE_MSR);
     ApicBase |= LAPIC_HW_ENABLE;
+    ApicBase |= Mcb->HasX2Apic << x2APIC_ENABLE_SHIFT;
     MdWrmsr(IA32_APIC_BASE_MSR, ApicBase);
 
     /* Software enable the Local APIC */

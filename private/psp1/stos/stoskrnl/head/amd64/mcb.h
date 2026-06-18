@@ -18,11 +18,13 @@
  * @Model:      Processor model ID
  * @Family:     Processor family ID
  * @LapicBase:  Local APIC MMIO base
+ * @HasX2Apic:  Set if processor supports x2APIC
  */
 typedef struct {
     UCHAR Model;
     USHORT Family : 12;
     VOID *LapicBase;
+    UCHAR HasX2Apic : 1;
 } MCB;
 
 #endif  /* !_MACHINE_MCB_H_ */
