@@ -101,8 +101,17 @@ HalKpcrP2Init(KPCR *Kpcr)
     if (Status != STATUS_SUCCESS) {
         KeKnot("Failed to initialize pool for cpu %d\n", Kpcr->CoreId);
     }
+}
+
+VOID
+HalKpcrP3Init(KPCR *Kpcr)
+{
+    if (Kpcr == NULL) {
+        return;
+    }
 
     MdLapicInit(Kpcr);
+    DTRACE("three-stage init complete for cpu%d\n", Kpcr->CoreId);
 }
 
 KPCR *

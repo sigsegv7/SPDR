@@ -15,6 +15,7 @@
 #include <ob/object.h>
 #include <hal/kpcr.h>
 #include <hal/serial.h>
+#include <hal/board.h>
 #include <ps/ps.h>
 #include <mm/pframe.h>
 #include <mm/vmm.h>
@@ -93,6 +94,12 @@ KernelEntry(VOID)
 
     /* Initialize the object manager */
     ObManagerInit();
+
+    /* Initialize board specifics */
+    HalBoardInit();
+
+    /* Phase 3 init of bootstrap core */
+    HalKpcrP3Init(&BootstrapCore);
 
     /* Create the root process */
     CreateRootProc();

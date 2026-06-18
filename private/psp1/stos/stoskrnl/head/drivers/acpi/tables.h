@@ -115,7 +115,7 @@ typedef struct PACKED {
 #define ACPI_GAS_QWORD  4   /* Qword access */
 
 typedef struct PACKED {
-    ACPI_HEADER *Header;
+    ACPI_HEADER Header;
     UCHAR HardwareRevId;
     UCHAR ComparatorCount   : 5;
     UCHAR CounterSize       : 1;

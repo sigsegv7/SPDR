@@ -47,6 +47,13 @@ VOID HalKpcrP1Init(KPCR *Kpcr);
 VOID HalKpcrP2Init(KPCR *Kpcr);
 
 /*
+ * KPCR phase 2 initialization
+ *
+ * @Kpcr: KPCR of processor to initialize
+ */
+VOID HalKpcrP3Init(KPCR *Kpcr);
+
+/*
  * Obtain a reference to the current processor context
  */
 KPCR *HalKpcrSelf(VOID);
