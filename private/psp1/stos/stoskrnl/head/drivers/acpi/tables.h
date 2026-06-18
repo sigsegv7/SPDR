@@ -76,8 +76,12 @@ typedef struct PACKED {
     UCHAR RegisterBitWidth;
     UCHAR RegisterBitOffset;
     UCHAR Reserved;
-    UQUAD Address;
+    ULONG AddressLow;
+    ULONG AddressHigh;
 } ACPI_GAS;
+
+#define ACPI_GAS_ADDRESS(GAS_P) \
+    (((GAS_P)->AddressHigh << 32) | ((GAS_P)->AddressLow))
 
 /*
  * ACPI Address Space ID definitions for GAS
