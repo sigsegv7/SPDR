@@ -43,7 +43,6 @@ LapicHasX2Apic(VOID)
 {
     ULONG Edx, Unused;
 
-
     CPUID(0x01, Unused, Unused, Unused, Edx);
     return ISSET(Edx, BIT(9)) != 0;
 }
