@@ -52,6 +52,7 @@ VOID
 MdLapicInit(KPCR *Kpcr)
 {
     VOID *LapicBase;
+    MCB *Mcb;
 
     if (Kpcr == NULL) {
         return;
@@ -65,6 +66,7 @@ MdLapicInit(KPCR *Kpcr)
         KeKnot("Processor does not include Local APIC unit\n");
     }
 
-    LapicBase = LapicGetBase();
-    DTRACE("mmio space available @ %p\n", LapicBase);
+    Mcb = &Kpcr->CoreData;
+    Mcb->LapicBase = LapicGetBase();
+    DTRACE("mmio space available @ %p\n", Mcb->LapicBase);
 }

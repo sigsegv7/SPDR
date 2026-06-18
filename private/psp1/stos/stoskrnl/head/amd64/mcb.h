@@ -15,12 +15,14 @@
  * The machine core block contains machine specific
  * processor information.
  *
- * @Model:  Processor model ID
- * @Family: Processor family ID
+ * @Model:      Processor model ID
+ * @Family:     Processor family ID
+ * @LapicBase:  Local APIC MMIO base
  */
 typedef struct {
     UCHAR Model;
     USHORT Family : 12;
+    VOID *LapicBase;
 } MCB;
 
 #endif  /* !_MACHINE_MCB_H_ */
